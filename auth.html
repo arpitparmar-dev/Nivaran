@@ -1,0 +1,244 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>NIVARAN – Login</title>
+
+<style>
+/* --- CORE LAYOUT (UNCHANGED) --- */
+html, body {
+  width:100%;
+  height:100%;
+  margin:0;
+  padding:0;
+  overflow:hidden; 
+  background:#F5F5DC;
+  font-family: Arial, sans-serif;
+}
+
+/* --- BACKGROUND MANDALAS --- */
+.mandala-left {
+  position:fixed;
+  left:0;
+  top:50%;
+  width:1050px;
+  height:1050px;
+  transform:translate(-50%, -50%);
+  opacity:0.35;
+  animation: rotateLeft 60s linear infinite;
+  z-index:0;
+  pointer-events:none;
+}
+
+.mandala-right {
+  position:fixed;
+  right:0;
+  top:0;
+  width:1100px;
+  height:1100px;
+  transform:translate(50%, -50%);
+  opacity:0.25;
+  animation: rotateRight 90s linear infinite;
+  z-index:0;
+  pointer-events:none;
+}
+
+@keyframes rotateLeft {
+  from { transform:translate(-50%, -50%) rotate(0deg); }
+  to   { transform:translate(-50%, -50%) rotate(360deg); }
+}
+
+@keyframes rotateRight {
+  from { transform:translate(50%, -50%) rotate(0deg); }
+  to   { transform:translate(50%, -50%) rotate(-360deg); }
+}
+
+/* --- AUTH UI --- */
+.auth-wrapper {
+  position:relative;
+  z-index:10;
+  height:100%;
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  justify-content:center;
+}
+
+.card {
+  background:rgba(255,255,255,0.78);
+  backdrop-filter:blur(14px);
+  padding:40px;
+  border-radius:20px;
+  width:360px;
+  text-align:center;
+  box-shadow:0 12px 40px rgba(0,0,0,0.2);
+}
+
+h2 {
+  color:#2A1503;
+  margin-bottom:20px;
+}
+
+input, button {
+  width:100%;
+  padding:14px;
+  margin-bottom:14px;
+  border-radius:12px;
+  font-size:14px;
+  box-sizing:border-box;
+}
+
+input {
+  border:1px solid #ccc;
+}
+
+button {
+  border:none;
+  background:#66350F;
+  color:white;
+  cursor:pointer;
+}
+
+button:hover {
+  background:#4a260a;
+}
+
+.toggle {
+  font-size:13px;
+  cursor:pointer;
+  color:#66350F;
+}
+
+.error {
+  color:red;
+  font-size:13px;
+  margin-bottom:10px;
+  min-height:16px;
+}
+
+/* --- FOOTER --- */
+.team-footer {
+  position:absolute;
+  bottom:30px;
+  width:100%;
+  text-align:center;
+}
+
+.team-name {
+  font-size:14px;
+  letter-spacing:5px;
+  color:#8B4513;
+  text-transform:uppercase;
+  opacity:0.8;
+}
+</style>
+</head>
+
+<body>
+
+<!-- BACKGROUND SVGs (UNCHANGED) -->
+<svg class="mandala-left" viewBox="0 0 600 600">
+  <g transform="translate(300 300)" fill="none" stroke="#2A1503" stroke-width="2">
+    <defs>
+      <path id="petal" d="M0,-260 C45,-200 45,-100 0,-40 C-45,-100 -45,-200 0,-260 Z"/>
+    </defs>
+    <g>
+      <use href="#petal"/><use href="#petal" transform="rotate(20)"/><use href="#petal" transform="rotate(40)"/>
+      <use href="#petal" transform="rotate(60)"/><use href="#petal" transform="rotate(80)"/><use href="#petal" transform="rotate(100)"/>
+      <use href="#petal" transform="rotate(120)"/><use href="#petal" transform="rotate(140)"/><use href="#petal" transform="rotate(160)"/>
+      <use href="#petal" transform="rotate(180)"/><use href="#petal" transform="rotate(200)"/><use href="#petal" transform="rotate(220)"/>
+      <use href="#petal" transform="rotate(240)"/><use href="#petal" transform="rotate(260)"/><use href="#petal" transform="rotate(280)"/>
+      <use href="#petal" transform="rotate(300)"/><use href="#petal" transform="rotate(320)"/><use href="#petal" transform="rotate(340)"/>
+    </g>
+  </g>
+</svg>
+
+<svg class="mandala-right" viewBox="0 0 600 600">
+  <g transform="translate(300 300)" fill="none" stroke="#2A1503" stroke-width="2">
+    <defs>
+      <path id="petalSmall" d="M0,-200 C35,-150 35,-80 0,-30 C-35,-80 -35,-150 0,-200 Z"/>
+    </defs>
+    <g>
+      <use href="#petalSmall"/><use href="#petalSmall" transform="rotate(30)"/><use href="#petalSmall" transform="rotate(60)"/>
+      <use href="#petalSmall" transform="rotate(90)"/><use href="#petalSmall" transform="rotate(120)"/><use href="#petalSmall" transform="rotate(150)"/>
+      <use href="#petalSmall" transform="rotate(180)"/><use href="#petalSmall" transform="rotate(210)"/><use href="#petalSmall" transform="rotate(240)"/>
+      <use href="#petalSmall" transform="rotate(270)"/><use href="#petalSmall" transform="rotate(300)"/><use href="#petalSmall" transform="rotate(330)"/>
+    </g>
+  </g>
+</svg>
+
+<!-- AUTH CARD -->
+<div class="auth-wrapper">
+  <div class="card">
+    <h2 id="title">Login</h2>
+    <div class="error" id="error"></div>
+
+    <input id="email" placeholder="Email">
+    <input id="password" type="password" placeholder="Password">
+    <input id="confirmPassword" type="password" placeholder="Confirm Password" style="display:none">
+
+    <button onclick="submitAuth()">Login</button>
+    <div class="toggle" onclick="toggleMode()">New user? Sign up</div>
+  </div>
+
+  <div class="team-footer">
+    <div class="team-name">THE HEXA-GRAMS</div>
+  </div>
+</div>
+
+<!-- FIREBASE AUTH LOGIC -->
+<script type="module">
+import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
+import {
+  getAuth,
+  createUserWithEmailAndPassword,
+  signInWithEmailAndPassword
+} from "https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js";
+
+/* FIREBASE CONFIG (VERIFIED) */
+const firebaseConfig = {
+  apiKey: "AIzaSyCKav6YcbmYnX0OkzdDabF3SonOKB_BW-s",
+  authDomain: "nivaran-62268.firebaseapp.com",
+  projectId: "nivaran-62268",
+  storageBucket: "nivaran-62268.firebasestorage.app",
+  messagingSenderId: "435713174677",
+  appId: "1:435713174677:web:06f681ab823906f6ccff9c"
+};
+
+const app = initializeApp(firebaseConfig);
+const auth = getAuth(app);
+
+let mode = "login";
+
+window.toggleMode = function () {
+  mode = mode === "login" ? "signup" : "login";
+  title.innerText = mode === "login" ? "Login" : "Sign Up";
+  confirmPassword.style.display = mode === "signup" ? "block" : "none";
+  document.querySelector("button").innerText =
+    mode === "login" ? "Login" : "Sign Up";
+  error.innerText = "";
+};
+
+window.submitAuth = async function () {
+  try {
+    if (mode === "signup") {
+      if (password.value !== confirmPassword.value) {
+        error.innerText = "Passwords do not match";
+        return;
+      }
+      await createUserWithEmailAndPassword(auth, email.value, password.value);
+    } else {
+      await signInWithEmailAndPassword(auth, email.value, password.value);
+    }
+
+    /* 🔁 REDIRECT CHANGED HERE */
+    window.location.href = "progress.html";
+
+  } catch (e) {
+    error.innerText = e.message;
+  }
+};
+</script>
+
+</body>
+</html>

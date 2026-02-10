@@ -9,11 +9,16 @@ let appData = JSON.parse(localStorage.getItem("niv_v_final")) || {
 };
 
 const MILESTONES = [7, 21, 30, 60, 75, 120];
-const STAT_MAP = {"Mobile & Social Media":"sm","Smoking / Alcohol":"sa","Gaming":"gm", "Junk Food":"jf"};
+const STAT_MAP = {
+    "Mobile & Social Media": "sm",
+    "Smoking / Alcohol": "sa",
+    "Gaming": "gm",
+    "Junk Food": "jf"
+};
 
 // --- UNIQUE DAY-BY-DAY MISSIONS ---
 const DAILY_MISSIONS = {
-    "sm": [
+    sm: [
         "Day 1: Uninstall one non-essential social app.",
         "Day 2: Set a 30-minute limit on Instagram/TikTok.",
         "Day 3: Do not check your phone for the first hour of the day.",
@@ -22,7 +27,7 @@ const DAILY_MISSIONS = {
         "Day 6: No phone 1 hour before sleep.",
         "Day 7: Full 24-hour social media fast."
     ],
-    "sa": [
+    sa: [
         "Day 1: Pour away any remaining stash/bottles.",
         "Day 2: Identify your top 3 'trigger' situations.",
         "Day 3: Drink 3 Liters of water today.",
@@ -31,7 +36,7 @@ const DAILY_MISSIONS = {
         "Day 6: Write down 5 things you'll gain by quitting.",
         "Day 7: Avoid the place where you usually indulge."
     ],
-    "gm": [
+    gm: [
         "Day 1: Move your console/PC to a different spot.",
         "Day 2: Unsubscribe from one gaming YouTube channel.",
         "Day 3: Limit gaming to exactly 1 hour (or zero).",
@@ -40,7 +45,7 @@ const DAILY_MISSIONS = {
         "Day 6: Research a skill you want to learn instead.",
         "Day 7: Delete one game you are addicted to."
     ],
-    "jf": [
+    jf: [
         "Day 1: Swap soda for sparkling or plain water.",
         "Day 2: No added sugar in your tea/coffee.",
         "Day 3: Eat two servings of green vegetables.",
@@ -51,7 +56,7 @@ const DAILY_MISSIONS = {
     ]
 };
 
-// --- UNIQUE ROUTINE TASKS PER DAY ---
+// --- UNIQUE ROUTINE TASKS ---
 const DAILY_ROUTINES = {
     1: ["Morning Stretch", "Plan the Day", "10 Min Meditation"],
     2: ["Drink Water First", "Read 5 Pages", "Journal Feelings"],
@@ -61,29 +66,30 @@ const DAILY_ROUTINES = {
     6: ["Mindful Walking", "Gratitude List", "Tea over Coffee"],
     7: ["Reflect on Week 1", "Clean Environment", "Digital Detox"]
 };
+
 // 🧠 ADDICTION RECOVERY PROTOCOL (7-Day Cycles)
 const RECOVERY_PROTOCOL = {
 
-    sm: [ // Mobile / Social Media
+    sm: [
         {
-            diet: "High-protein breakfast + banana (dopamine support)",
-            physical: "20 min brisk walk in sunlight",
-            mental: "10 min meditation (focus on breath)",
-            music: "Lo-fi focus instrumental",
-            lifestyle: "No phone first 60 minutes after waking"
+            diet: "High-protein breakfast + banana",
+            physical: "20 min brisk walk",
+            mental: "10 min meditation",
+            music: "Lo-fi focus",
+            lifestyle: "No phone first 60 min"
         },
         {
-            diet: "Walnuts + dark chocolate (small piece)",
+            diet: "Walnuts + dark chocolate",
             physical: "Bodyweight workout 25 min",
-            mental: "Journaling: Why am I quitting?",
-            music: "Soft classical piano",
-            lifestyle: "Turn phone grayscale for the day"
+            mental: "Journaling",
+            music: "Soft piano",
+            lifestyle: "Grayscale phone"
         },
         {
-            diet: "Omega-3 rich meal (seeds/fish)",
-            physical: "30 min strength training",
-            mental: "Deep work session 45 min",
-            music: "Instrumental ambient",
+            diet: "Omega-3 rich meal",
+            physical: "Strength training 30 min",
+            mental: "Deep work 45 min",
+            music: "Ambient instrumental",
             lifestyle: "No scrolling after 8PM"
         },
         {
@@ -91,69 +97,69 @@ const RECOVERY_PROTOCOL = {
             physical: "HIIT 20 min",
             mental: "Cold shower 30 sec",
             music: "Motivational instrumental",
-            lifestyle: "Notifications off all day"
+            lifestyle: "Notifications off"
         },
         {
             diet: "Green smoothie + protein",
             physical: "Yoga 25 min",
             mental: "Gratitude practice",
-            music: "Nature rain sounds",
-            lifestyle: "Social media max 20 mins"
+            music: "Nature sounds",
+            lifestyle: "Social media max 20 min"
         },
         {
-            diet: "Clean eating whole day",
+            diet: "Clean eating",
             physical: "Outdoor walk 40 min",
-            mental: "Visualization: Future self",
-            music: "Deep focus instrumental",
+            mental: "Visualization",
+            music: "Deep focus",
             lifestyle: "No phone during meals"
         },
         {
-            diet: "Balanced meal + fruits",
+            diet: "Balanced meal",
             physical: "Stretch + light cardio",
             mental: "Weekly reflection",
-            music: "Silence (no music challenge)",
+            music: "Silence challenge",
             lifestyle: "24h digital detox"
         }
     ],
 
-    sa: [ // Smoking / Alcohol
+    sa: [
         {
-            diet: "Vitamin C rich fruits (orange, amla)",
+            diet: "Vitamin C rich fruits",
             physical: "Fast walk 25 min",
-            mental: "Urge surfing practice 5 min",
+            mental: "Urge surfing",
             music: "Calm instrumental",
-            lifestyle: "Avoid trigger place today"
+            lifestyle: "Avoid trigger place"
         },
         {
             diet: "Green detox smoothie",
             physical: "Light jog 20 min",
-            mental: "Breathing exercise 4-7-8",
-            music: "Soft recovery music",
+            mental: "4-7-8 breathing",
+            music: "Soft recovery",
             lifestyle: "Drink 3L water"
         },
         {
-            diet: "High protein + fiber meal",
-            physical: "Strength workout 30 min",
-            mental: "Write 5 benefits of quitting",
+            diet: "High protein + fiber",
+            physical: "Strength workout",
+            mental: "Write benefits",
             music: "Motivational beats",
-            lifestyle: "Stay away from old friends triggers"
+            lifestyle: "Avoid trigger friends"
         },
         {
-            diet: "No caffeine day",
+            diet: "No caffeine",
             physical: "Yoga 30 min",
-            mental: "Cold exposure 1 min",
+            mental: "Cold exposure",
             music: "Instrumental focus",
-            lifestyle: "Sleep before 10:30PM"
+            lifestyle: "Sleep early"
         },
         {
             diet: "Antioxidant rich meal",
             physical: "Cardio 35 min",
             mental: "Guided meditation",
-            music: "Healing frequency 432Hz",
+            music: "432Hz healing",
             lifestyle: "Sunlight 20 min"
         },
         {
-            diet: "Hydration focus day",
+            diet: "Hydration focus",
             physical: "Strength training",
             mental: "Visualize clean lungs",
             music: "Upbeat instrumental",
@@ -161,10 +167,114 @@ const RECOVERY_PROTOCOL = {
         },
         {
             diet: "Balanced clean diet",
-            physical: "Active rest + stretching",
+            physical: "Stretching",
             mental: "Reflect progress",
-            music: "Silence challenge",
+            music: "Silence",
             lifestyle: "Digital minimal day"
+        }
+    ],
+
+    gm: [
+        {
+            diet: "Protein breakfast + nuts",
+            physical: "Brisk walk 30 min",
+            mental: "No-screen deep work 45 min",
+            music: "Lo-fi beats",
+            lifestyle: "No gaming before 6PM"
+        },
+        {
+            diet: "Balanced complex carbs",
+            physical: "Bodyweight workout",
+            mental: "Write why gaming controls you",
+            music: "Ambient instrumental",
+            lifestyle: "Uninstall one launcher"
+        },
+        {
+            diet: "Hydration + fruits",
+            physical: "Stretch & posture work",
+            mental: "Pomodoro x2",
+            music: "Brown noise",
+            lifestyle: "Controller stored away"
+        },
+        {
+            diet: "No sugar",
+            physical: "HIIT or sport",
+            mental: "Cold exposure",
+            music: "Motivational instrumental",
+            lifestyle: "No gaming content"
+        },
+        {
+            diet: "Omega-3 rich meal",
+            physical: "Strength training",
+            mental: "Visualize addiction-free self",
+            music: "Deep focus",
+            lifestyle: "30 min max gaming"
+        },
+        {
+            diet: "Clean eating",
+            physical: "Outdoor walk 45 min",
+            mental: "Learn a real skill",
+            music: "Nature sounds",
+            lifestyle: "Gaming-free day"
+        },
+        {
+            diet: "Balanced comfort meal",
+            physical: "Light stretching",
+            mental: "Weekly reflection",
+            music: "Silence",
+            lifestyle: "Delete one game"
+        }
+    ],
+
+    jf: [
+        {
+            diet: "Whole-food breakfast",
+            physical: "Morning walk",
+            mental: "Mindful eating",
+            music: "Calm instrumental",
+            lifestyle: "No food apps"
+        },
+        {
+            diet: "High fiber + protein",
+            physical: "Light cardio",
+            mental: "Learn food triggers",
+            music: "Soft lo-fi",
+            lifestyle: "No eating after 8PM"
+        },
+        {
+            diet: "No processed food",
+            physical: "Yoga 30 min",
+            mental: "10 min craving delay",
+            music: "Healing ambient",
+            lifestyle: "Cook all meals"
+        },
+        {
+            diet: "Low-GI meals",
+            physical: "Strength workout",
+            mental: "Cold water splash",
+            music: "Motivational instrumental",
+            lifestyle: "Avoid snack aisles"
+        },
+        {
+            diet: "Fruits + nuts",
+            physical: "Post-meal walk",
+            mental: "Journal emotional eating",
+            music: "Rain sounds",
+            lifestyle: "No sugary drinks"
+        },
+        {
+            diet: "Clean balanced meals",
+            physical: "Active hobby",
+            mental: "Visualize body goals",
+            music: "Focus instrumental",
+            lifestyle: "Zero junk food"
+        },
+        {
+            diet: "Intuitive eating",
+            physical: "Light stretching",
+            mental: "Weekly food reflection",
+            music: "Silence",
+            lifestyle: "Meal prep"
         }
     ]
 };

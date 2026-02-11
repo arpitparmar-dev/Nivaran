@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>NIVARAN – Complete Profile</title>
+
+<style>
+body{
+  margin:0;
+  height:100vh;
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  background:#F5F5DC;
+  font-family:Arial;
+}
+
+.card{
+  background:white;
+  padding:40px;
+  border-radius:20px;
+  width:360px;
+  text-align:center;
+  box-shadow:0 12px 40px rgba(0,0,0,0.2);
+}
+
+input, select, button{
+  width:100%;
+  padding:12px;
+  margin-bottom:15px;
+  border-radius:10px;
+  border:1px solid #ccc;
+  box-sizing:border-box;
+}
+
+button{
+  background:#66350F;
+  color:white;
+  border:none;
+  cursor:pointer;
+}
+
+button:hover{
+  background:#4a260a;
+}
+
+.error{
+  color:red;
+  font-size:13px;
+  margin-bottom:10px;
+}
+</style>
+</head>
+
+<body>
+
+<div class="card">
+  <h2>Complete Your Profile</h2>
+
+  <div class="error" id="error"></div>
+
+  <input id="username" placeholder="Choose Unique Username">
+  
+  <select id="gender">
+    <option value="">Select Gender</option>
+    <option>Male</option>
+    <option>Female</option>
+    <option>Other</option>
+  </select>
+
+  <input id="weight" type="number" placeholder="Weight (kg)">
+  <input id="height" type="number" placeholder="Height (cm)">
+
+  <button onclick="saveUserData()">Continue</button>
+</div>
+
+<script type="module">
+import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
+import { getAuth } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js";
+import { 
+  getFirestore, 
+  doc, 
+  setDoc, 
+  getDoc 
+} from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
+
+const firebaseConfig = {
+  apiKey: "AIzaSyCKav6YcbmYnX0OkzdDabF3SonOKB_BW-s",
+  authDomain: "nivaran-62268.firebaseapp.com",
+  projectId: "nivaran-62268",
+  storageBucket: "nivaran-62268.firebasestorage.app",
+  messagingSenderId: "435713174677",
+  appId: "1:435713174677:web:06f681ab823906f6ccff9c"
+};
+
+const app = initializeApp(firebaseConfig);
+const auth = getAuth(app);
+const db = getFirestore(app);
+
+window.saveUserData = async function(){
+
+  const user = auth.currentUser;
+  const username = document.getElementById("username").value.trim().toLowerCase();
+  const gender = document.getElementById("gender").value;
+  const weight = document.getElementById("weight").value;
+  const height = document.getElementById("height").value;
+  const errorDiv = document.getElementById("error");
+
+  if(!user){
+    errorDiv.innerText = "User not authenticated.";
+    return;
+  }
+
+  if(!username || !gender || !weight || !height){
+    errorDiv.innerText = "Please fill all fields.";
+    return;
+  }
+
+  try{
+    // Check if username already exists
+    const usernameRef = doc(db, "usernames", username);
+    const usernameSnap = await getDoc(usernameRef);
+
+    if(usernameSnap.exists()){
+      errorDiv.innerText = "Username already exists. Choose another.";
+      return;
+    }
+
+    // Save username document (to reserve it)
+    await setDoc(usernameRef, {
+      uid: user.uid
+    });
+
+    // Save full user data
+    await setDoc(doc(db, "users", user.uid), {
+      email: user.email,
+      username: username,
+      gender: gender,
+      weight: weight,
+      height: height,
+      createdAt: new Date()
+    });
+
+    window.location.replace("progress.html");
+
+  }catch(e){
+    errorDiv.innerText = e.message;
+  }
+}
+</script>
+
+</body>
+</html>

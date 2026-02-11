@@ -125,10 +125,14 @@ body{ margin:0; background:var(--bg); color:var(--primary); overflow-x:hidden; }
   </div>
 
   <div id="profileEdit" style="display:none;" class="card">
-    <input type="text" id="userNameInput" placeholder="Name" style="width:100%; padding:8px; margin-bottom:10px;">
-    <button class="nav-btn" onclick="document.getElementById('imgInput').click()" style="width:100%; margin-bottom:10px;">Upload Photo</button>
+    <input type="text" id="userNameInput" placeholder="Username" style="width:100%; padding:8px; margin-bottom:10px;">
+    <input type="number" id="userWeightInput" placeholder="Weight (kg)" style="width:100%; padding:8px; margin-bottom:10px;">
+    <input type="number" id="userHeightInput" placeholder="Height (cm)" style="width:100%; padding:8px; margin-bottom:10px;">
+    
+    <button class="nav-btn" onclick="document.getElementById('imgInput').click()" style="width:100%; margin-bottom:10px; font-size:12px;">Upload Photo</button>
     <input type="file" id="imgInput" style="display:none" onchange="previewImg(this)">
-    <button class="update-btn" style="font-size:12px; padding:8px;" onclick="saveProfile()">Save</button>
+    
+    <button class="update-btn" style="font-size:12px; padding:8px;" onclick="saveProfile()">Save Changes</button>
   </div>
 
   <div id="sidebarStats">

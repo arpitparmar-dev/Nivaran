@@ -42,12 +42,12 @@ body{ margin:0; background:var(--bg); color:var(--primary); overflow-x:hidden; }
 .profile-img img { width: 100%; height: 100%; object-fit: cover; }
 .profile-effect { position: absolute; top: -5px; left: -5px; width: 100px; height: 100px; border-radius: 50%; z-index: 1; box-shadow: 0 0 25px 12px rgba(255, 152, 0, 0.6); animation: pulseFire 1.2s infinite; }
 
-/* PROGRESS UI */
+/* PROGRESS BARS */
 .mini-progress-bg { width: 100%; height: 8px; background: var(--accent); border-radius: 10px; margin-top: 5px; overflow: hidden; }
 .mini-progress-fill { height: 100%; background: var(--secondary); width: 0%; transition: width 0.8s; }
 .recovery-label { font-size: 10px; font-weight: bold; display: flex; justify-content: space-between; margin-top: 15px; text-transform: uppercase; }
 
-/* 🛠️ UNIFORM SIDEBAR ACTION BUTTONS */
+/* 🛠️ SIDEBAR BUTTONS (Uniform Size) */
 .sidebar-action-btn {
     width: 100%;
     padding: 14px;
@@ -64,13 +64,13 @@ body{ margin:0; background:var(--bg); color:var(--primary); overflow-x:hidden; }
 }
 .sidebar-action-btn:hover { background: #7a2424; transform: scale(1.02); }
 
-/* DASHBOARD CARDS */
+/* DASHBOARD CARDS (Border-Left Style) */
 .container{ max-width:800px; margin:auto; padding:80px 20px 20px; }
 .card{ background:var(--card); padding:16px; border-radius:18px; margin-bottom:15px; box-shadow: 0 4px 10px rgba(0,0,0,0.08); }
 .addiction-btn{ cursor:pointer; border-left:6px solid var(--secondary); transition: 0.2s; text-align: left; }
 .addiction-btn:hover { transform: translateX(8px); background: var(--accent); }
 
-/* 🛠️ STATS & TROPHY ZONE (FORCED CENTERING) */
+/* 🛠️ CENTERED STATS & TROPHY */
 .stats-row { 
     display: flex; 
     justify-content: center; 
@@ -108,7 +108,7 @@ body{ margin:0; background:var(--bg); color:var(--primary); overflow-x:hidden; }
     margin: 0 auto 15px;
 }
 
-/* MODALS & TASKS */
+/* TASKS & MODALS */
 .task-row{ display:flex; justify-content:space-between; align-items:center; padding:12px; border-radius:10px; margin-bottom:8px; background:rgba(255,255,255,0.3); }
 .task-row input[type="checkbox"] { width: 20px; height: 20px; cursor: pointer; accent-color: var(--secondary); }
 .update-btn{ width:100%; padding:16px; font-size:18px; border-radius:12px; background: var(--primary); color: white; border: none; font-weight: bold; cursor: pointer; }
@@ -203,7 +203,8 @@ body{ margin:0; background:var(--bg); color:var(--primary); overflow-x:hidden; }
 
   <div class="trophy-zone">
     <div class="shield-badge">🛡️ <span id="shieldCount">0</span> Shields</div>
-    <svg width="120" height="120" viewBox="0 0 100 100" style="display:block;">
+    <br>
+    <svg width="120" height="120" viewBox="0 0 100 100" style="display:block; margin:0 auto;">
         <path d="M30,25 Q15,25 15,40 T30,50 M70,25 Q85,25 85,40 T70,50 M40,80 h20 M50,80 v10 M35,90 h30" fill="none" stroke="#d1ccbc" stroke-width="3"/>
         <path id="trophyPath" d="M30,20 h40 v30 c0,20 -10,30 -20,30 s-20,-10 -20,-30 z" fill="none" stroke="#d1ccbc" stroke-width="5"/>
     </svg>
@@ -216,6 +217,12 @@ body{ margin:0; background:var(--bg); color:var(--primary); overflow-x:hidden; }
     <div class="card" id="taskList"></div>
     <button class="update-btn" onclick="handleCompleteDay()">COMPLETE DAY</button>
     <button onclick="showWhyModal()" style="width:100%; margin-top:12px; background:transparent; border:2px solid var(--secondary); color:var(--secondary); padding:14px; border-radius:12px; font-weight:bold; cursor:pointer;">WHY THIS PLAN WORKS?</button>
+  </div>
+
+  <div id="successCard" class="card" style="display:none; text-align:center; background:var(--secondary); color:white;">
+      <h2 id="successTitle">🌟 Day Completed!</h2>
+      <p style="opacity:0.9;">Great job! Your brain is healing.</p>
+      <button class="update-btn" style="background:white; color:var(--secondary)" onclick="advanceToNextDay()">Start Next Day</button>
   </div>
 </div>
 
@@ -256,6 +263,7 @@ onAuthStateChanged(auth, async (user) => {
     }
 });
 
+/* 🛠️ TASK VALIDATION */
 window.handleCompleteDay = () => {
     const checks = document.querySelectorAll('#taskList input[type="checkbox"]');
     const allDone = Array.from(checks).every(c => c.checked);
@@ -266,6 +274,8 @@ window.handleCompleteDay = () => {
     }
 };
 window.hideWarning = () => document.getElementById('warningModal').style.display = 'none';
+
+/* 🛠️ PROFILE LOGIC */
 window.toggleProfileEdit = () => { const sec = document.getElementById('sidebarEditSection'); sec.style.display = (sec.style.display === 'none') ? 'block' : 'none'; };
 window.previewSidebarImg = (input) => { if (input.files && input.files[0]) { const reader = new FileReader(); reader.onload = (e) => { document.getElementById('userAvatar').innerHTML = `<img src="${e.target.result}">`; window.pendingPhoto = e.target.result; }; reader.readAsDataURL(input.files[0]); } };
 window.saveSidebarProfile = async () => {
@@ -274,6 +284,7 @@ window.saveSidebarProfile = async () => {
     if(window.pendingPhoto) updateData.photo = window.pendingPhoto;
     try { await updateDoc(doc(db, "users", user.uid), updateData); alert("Profile Updated!"); toggleProfileEdit(); } catch(e) { alert(e.message); }
 };
+
 window.handleSignOut = async () => { await signOut(auth); sessionStorage.removeItem("guest"); window.location.replace("auth.html"); };
 window.showResetModal = () => document.getElementById('resetModal').style.display = 'flex';
 window.hideResetModal = () => document.getElementById('resetModal').style.display = 'none';

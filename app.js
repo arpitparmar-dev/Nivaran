@@ -152,7 +152,18 @@ function generateRecoveryPlan(key, day){
 }
 
 function initApp() {
+    // 1. Check if a name was saved from the userdata/setup page
+    const savedName = localStorage.getItem("user_name");
+    
+    if (savedName) {
+        // Update the appData object and the UI
+        appData.user.name = savedName;
+    }
+
+    // 2. Display the name in the sidebar
     document.getElementById('currentUserName').innerText = appData.user.name;
+    
+    // 3. Handle avatar and bars
     if(appData.user.img) applyAvatar(appData.user.img);
     updateSidebarBars();
 }

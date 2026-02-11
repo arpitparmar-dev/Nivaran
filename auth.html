@@ -48,8 +48,8 @@ html, body {
 }
 
 @keyframes rotateRight {
-  from { transform:translate(50%, -50%) rotate(-360deg); }
-  to   { transform:translate(50%, -50%) rotate(0deg); }
+  from { transform:translate(50%, -50%) rotate(0deg); }
+  to   { transform:translate(50%, -50%) rotate(-360deg); }
 }
 
 /* ===== AUTH UI ===== */
@@ -121,7 +121,7 @@ button:hover{
   min-height:16px;
 }
 
-/* Remember Me Styling */
+/* REMEMBER ME STYLING */
 .remember-me-container {
   display: flex;
   align-items: center;
@@ -130,6 +130,7 @@ button:hover{
   font-size: 13px;
   color: #2A1503;
   cursor: pointer;
+  justify-content: flex-start;
 }
 .remember-me-container input {
   width: 16px;
@@ -159,7 +160,7 @@ button:hover{
     <h2 id="title">Login</h2>
     <div class="error" id="error"></div>
 
-    <input id="email" placeholder="Email">
+    <input id="email" type="email" placeholder="Email">
     <input id="password" type="password" placeholder="Password">
     <input id="confirmPassword" type="password" placeholder="Confirm Password" style="display:none">
 
@@ -167,7 +168,7 @@ button:hover{
       <input type="checkbox" id="rememberMe"> Remember Me
     </label>
 
-    <button onclick="submitAuth()">Login</button>
+    <button id="submitBtn" onclick="submitAuth()">Login</button>
 
     <div class="toggle" onclick="toggleMode()">New user? Sign up</div>
     <div class="guest" onclick="guestLogin()">Continue as Guest</div>
@@ -182,8 +183,7 @@ import {
   signInWithEmailAndPassword,
   setPersistence,
   browserLocalPersistence,
-  browserSessionPersistence,
-  onAuthStateChanged
+  browserSessionPersistence
 } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js";
 
 /* FIREBASE CONFIG */
@@ -199,52 +199,76 @@ const firebaseConfig = {
 const app = initializeApp(firebaseConfig);
 const auth = getAuth(app);
 
-// Check if user is already logged in
-onAuthStateChanged(auth, (user) => {
-  if (user) window.location.replace("progress.html");
-});
+const email = document.getElementById("email");
+const password = document.getElementById("password");
+const confirmPassword = document.getElementById("confirmPassword");
+const rememberMe = document.getElementById("rememberMe");
+const error = document.getElementById("error");
+const title = document.getElementById("title");
+const submitBtn = document.getElementById("submitBtn");
 
 let mode = "login";
 
+/* ===== TOGGLE LOGIN / SIGNUP ===== */
 window.toggleMode = function(){
   mode = mode === "login" ? "signup" : "login";
-  document.getElementById("title").innerText = mode === "login" ? "Login" : "Sign Up";
-  document.getElementById("confirmPassword").style.display = mode === "signup" ? "block" : "none";
-  document.querySelector("button").innerText = mode === "login" ? "Login" : "Sign Up";
-  document.getElementById("error").innerText = "";
+  title.innerText = mode === "login" ? "Login" : "Sign Up";
+  confirmPassword.style.display = mode === "signup" ? "block" : "none";
+  submitBtn.innerText = mode === "login" ? "Login" : "Sign Up";
+  error.innerText = "";
 };
 
+/* ===== LOGIN / SIGNUP FUNCTION ===== */
 window.submitAuth = async function(){
-  const emailInput = document.getElementById("email").value;
-  const passwordInput = document.getElementById("password").value;
-  const remember = document.getElementById("rememberMe").checked;
-  const errorDiv = document.getElementById("error");
+
+  if(!email.value || !password.value){
+    error.innerText = "Please enter email and password.";
+    return;
+  }
 
   try{
-    // Set persistence based on checkbox
-    const persistence = remember ? browserLocalPersistence : browserSessionPersistence;
+    // 🔥 PERSISTENCE LOGIC
+    // Local = persists across browser restarts. Session = cleared when tab closes.
+    const persistence = rememberMe.checked ? browserLocalPersistence : browserSessionPersistence;
     await setPersistence(auth, persistence);
 
     if(mode === "signup"){
-      if(passwordInput !== document.getElementById("confirmPassword").value){
-        errorDiv.innerText = "Passwords do not match";
+      if(password.value !== confirmPassword.value){
+        error.innerText = "Passwords do not match.";
         return;
       }
-      await createUserWithEmailAndPassword(auth, emailInput, passwordInput);
+
+      await createUserWithEmailAndPassword(
+        auth,
+        email.value,
+        password.value
+      );
+
+      window.location.replace("userdata.html");
+
     } else {
-      await signInWithEmailAndPassword(auth, emailInput, passwordInput);
+      await signInWithEmailAndPassword(
+        auth,
+        email.value,
+        password.value
+      );
+
+      window.location.replace("progress.html");
     }
-    window.location.replace("progress.html");
+
   }catch(e){
-    errorDiv.innerText = e.message;
+    error.innerText = e.message;
   }
 };
 
+/* ===== GUEST LOGIN ===== */
 window.guestLogin = function(){
   sessionStorage.setItem("guest", "true");
   window.location.replace("progress.html");
 };
 </script>
 
+</body>
+</html>
 </body>
 </html>

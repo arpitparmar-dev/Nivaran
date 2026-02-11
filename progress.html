@@ -14,6 +14,7 @@
     --card:#C2B280;
     --accent:#E8D8C4;
     --shield:#1cb0f6;
+    --danger: #962d2d;
 }
 
 *{box-sizing:border-box; font-family:"Segoe UI",sans-serif; transition: 0.3s;}
@@ -46,72 +47,49 @@ body{ margin:0; background:var(--bg); color:var(--primary); overflow-x:hidden; }
 .profile-img { width: 100%; height: 100%; background: var(--accent); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 40px; border: 3px solid var(--secondary); overflow: hidden; position: relative; z-index: 2; }
 .profile-img img { width: 100%; height: 100%; object-fit: cover; }
 .profile-effect { position: absolute; top: -5px; left: -5px; width: 100px; height: 100px; border-radius: 50%; z-index: 1; box-shadow: 0 0 25px 12px rgba(255, 152, 0, 0.6); animation: pulseFire 1.2s infinite; }
-@keyframes pulseFire { 0%, 100% { transform: scale(1); opacity: 0.6; } 50% { transform: scale(1.1); opacity: 0.9; } }
 
-/* RECOVERY PROGRESS BARS */
+/* RECOVERY STATS */
 .mini-progress-bg { width: 100%; height: 8px; background: var(--accent); border-radius: 10px; margin-top: 5px; overflow: hidden; }
 .mini-progress-fill { height: 100%; background: var(--secondary); width: 0%; transition: width 0.8s; }
 .recovery-label { font-size: 10px; font-weight: bold; display: flex; justify-content: space-between; margin-top: 15px; text-transform: uppercase; }
 
-/* 🛠️ CENTERING LOGIC FOR DAY/STREAK/SHIELD */
-.stats-row { 
-    display: flex; 
-    justify-content: center; 
-    gap: 20px; 
-    margin-bottom: 25px; 
+/* 🛠️ UNIFORM SIDEBAR ACTION BUTTONS */
+.sidebar-action-btn {
+    width: 100%;
+    padding: 14px;
+    font-size: 12px;
+    border-radius: 12px;
+    background: var(--danger);
+    color: white;
+    border: none;
+    font-weight: bold;
+    cursor: pointer;
+    margin-top: 10px;
+    text-transform: uppercase;
 }
-.stat-circle {
-    width: 85px; 
-    height: 85px; 
-    border-radius: 50%;
-    background: var(--accent); 
-    border: 3px solid var(--secondary);
-    display: flex; 
-    flex-direction: column; 
-    align-items: center; 
-    justify-content: center;
-    box-shadow: 0 4px 8px rgba(0,0,0,0.1);
-    text-align: center;
-}
-.stat-value { font-size: 24px; font-weight: bold; color: var(--primary); }
-.stat-label { font-size: 10px; text-transform: uppercase; opacity: 0.7; }
+.sidebar-action-btn:hover { background: #7a2424; transform: scale(1.02); }
 
-.trophy-zone { 
-    display: flex;
-    flex-direction: column;
-    align-items: center; 
-    justify-content: center;
-    text-align: center; 
-    margin-bottom: 20px; 
-}
-.shield-badge { 
-    background: var(--shield); 
-    color: white; 
-    padding: 6px 15px; 
-    border-radius: 20px; 
-    font-weight: bold; 
-    display: inline-flex; 
-    align-items: center; 
-    gap: 8px; 
-}
-
-/* 🛠️ ORIGINAL DASHBOARD BUTTON STYLE */
+/* DASHBOARD BUTTONS */
 .container{ max-width:800px; margin:auto; padding:80px 20px 20px; }
 .card{ background:var(--card); padding:16px; border-radius:18px; margin-bottom:15px; box-shadow: 0 4px 10px rgba(0,0,0,0.08); }
 .addiction-btn{ cursor:pointer; border-left:6px solid var(--secondary); transition: 0.2s; text-align: left; }
 .addiction-btn:hover { transform: translateX(8px); background: var(--accent); }
 
-/* TASK LIST & TICK BOXES */
+/* TASK LIST STYLE */
 .task-row{ display:flex; justify-content:space-between; align-items:center; padding:12px; border-radius:10px; margin-bottom:8px; background:rgba(255,255,255,0.3); }
-.task-row input[type="checkbox"] { width: 18px; height: 18px; cursor: pointer; accent-color: var(--secondary); }
+.task-row input[type="checkbox"] { width: 20px; height: 20px; cursor: pointer; accent-color: var(--secondary); }
 
 .update-btn{ width:100%; padding:16px; font-size:18px; border-radius:12px; background: var(--primary); color: white; border: none; font-weight: bold; cursor: pointer; }
 .nav-btn { background: var(--accent); color: var(--primary); padding: 8px 15px; border-radius: 8px; border: 1px solid var(--secondary); font-weight: bold; cursor: pointer; }
 
-/* MODALS */
+/* MODALS & TROPHY ZONE */
 .modal-overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.85); z-index: 4000; display: none; align-items: center; justify-content: center; }
 .modal-card { background: var(--bg); padding: 25px; border-radius: 20px; text-align: center; width: 320px; border: 2px solid var(--secondary); }
-#trophyPath { stroke-dasharray: 260; stroke-dashoffset: 260; transition: stroke-dashoffset 1.5s ease; }
+.stats-row { display: flex; justify-content: center; gap: 20px; margin-bottom: 25px; }
+.stat-circle { width: 85px; height: 85px; border-radius: 50%; background: var(--accent); border: 3px solid var(--secondary); display: flex; flex-direction: column; align-items: center; justify-content: center; }
+.stat-value { font-size: 24px; font-weight: bold; }
+.stat-label { font-size: 10px; text-transform: uppercase; }
+.shield-badge { background: var(--shield); color: white; padding: 6px 15px; border-radius: 20px; font-weight: bold; display: inline-flex; align-items: center; gap: 8px; }
 </style>
 </head>
 
@@ -170,8 +148,10 @@ body{ margin:0; background:var(--bg); color:var(--primary); overflow-x:hidden; }
       <div class="mini-progress-bg"><div id="bar-jf" class="mini-progress-fill"></div></div>
   </div>
 
-  <button class="update-btn" style="margin-top:auto; background:#962d2d; font-size:11px;" onclick="showResetModal()">⚠️ RESET ALL</button>
-  <button class="update-btn" style="margin-top:10px; background:#962d2d; font-size:10px; padding:8px;" onclick="handleSignOut()">🚪 SIGN OUT</button>
+  <div style="margin-top: auto; padding-top: 20px;">
+      <button class="sidebar-action-btn" onclick="showResetModal()">⚠️ RESET ALL PROGRESS</button>
+      <button class="sidebar-action-btn" onclick="handleSignOut()">🚪 SIGN OUT</button>
+  </div>
 </div>
 
 <div class="container" id="dashboard">
@@ -184,22 +164,19 @@ body{ margin:0; background:var(--bg); color:var(--primary); overflow-x:hidden; }
 
 <div class="container" id="addictionPage" style="display:none">
   <button class="nav-btn" onclick="goBack()" style="margin-bottom:20px;">← Dashboard</button>
-  
   <div class="stats-row">
       <div class="stat-circle"><span class="stat-value" id="widgetDay">1</span><span class="stat-label">Day</span></div>
       <div class="stat-circle" style="border-color: #e67e22;"><span class="stat-value" id="widgetStreak">0</span><span class="stat-label">Streak</span></div>
   </div>
-
   <div class="trophy-zone">
     <div class="shield-badge">🛡️ <span id="shieldCount">0</span> Shields</div>
-    <br>
+    <br><br>
     <svg width="120" height="120" viewBox="0 0 100 100">
         <path d="M30,25 Q15,25 15,40 T30,50 M70,25 Q85,25 85,40 T70,50 M40,80 h20 M50,80 v10 M35,90 h30" fill="none" stroke="#d1ccbc" stroke-width="3"/>
         <path id="trophyPath" d="M30,20 h40 v30 c0,20 -10,30 -20,30 s-20,-10 -20,-30 z" fill="none" stroke="#d1ccbc" stroke-width="5"/>
     </svg>
     <h3 id="milestoneLabel">Goal: Day 7</h3>
   </div>
-
   <div id="taskContent">
     <div id="specialTaskBox"></div>
     <h3 id="routineHeading">Today's Routine</h3>
@@ -207,7 +184,6 @@ body{ margin:0; background:var(--bg); color:var(--primary); overflow-x:hidden; }
     <button class="update-btn" onclick="handleCompleteDay()">COMPLETE DAY</button>
     <button onclick="showWhyModal()" style="width:100%; margin-top:12px; background:transparent; border:2px solid var(--secondary); color:var(--secondary); padding:14px; border-radius:12px; font-weight:bold; cursor:pointer;">WHY THIS PLAN WORKS?</button>
   </div>
-
   <div id="successCard" class="card" style="display:none; text-align:center; background:var(--secondary); color:white;">
       <h2 id="successTitle">🌟</h2>
       <button class="update-btn" style="background:white; color:var(--secondary)" onclick="advanceToNextDay()">Start Next Day</button>
@@ -223,22 +199,8 @@ body{ margin:0; background:var(--bg); color:var(--primary); overflow-x:hidden; }
     </div>
 </div>
 
-<div id="resetModal" class="modal-overlay">
-    <div class="modal-card">
-        <h3>Reset Everything?</h3>
-        <button class="update-btn" style="background:#962d2d; margin-bottom:10px;" onclick="handleConfirmReset()">YES, RESET</button>
-        <button class="nav-btn" style="width:100%" onclick="hideResetModal()">CANCEL</button>
-    </div>
-</div>
-
-<div id="whyModal" class="modal-overlay">
-    <div class="modal-card" style="width:400px; text-align:left;">
-        <h3 style="margin-top:0;">🧠 How This Helps</h3>
-        <div id="whyContent" style="font-size:14px; line-height:1.6;"></div>
-        <br>
-        <button class="update-btn" onclick="closeWhyModal()">CLOSE</button>
-    </div>
-</div>
+<div id="resetModal" class="modal-overlay"><div class="modal-card"><h3>Reset Everything?</h3><button class="update-btn" style="background:var(--danger); margin-bottom:10px;" onclick="handleConfirmReset()">YES, RESET</button><button class="nav-btn" onclick="hideResetModal()">CANCEL</button></div></div>
+<div id="whyModal" class="modal-overlay"><div class="modal-card" style="width:400px; text-align:left;"><h3 style="margin-top:0;">🧠 How This Helps</h3><div id="whyContent"></div><br><button class="update-btn" onclick="closeWhyModal()">CLOSE</button></div></div>
 
 <script type="module">
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
@@ -265,7 +227,6 @@ onAuthStateChanged(auth, async (user) => {
     }
 });
 
-/* 🛠️ TASK VALIDATION */
 window.handleCompleteDay = () => {
     const checks = document.querySelectorAll('#taskList input[type="checkbox"]');
     const allDone = Array.from(checks).every(c => c.checked);
@@ -276,8 +237,6 @@ window.handleCompleteDay = () => {
     }
 };
 window.hideWarning = () => document.getElementById('warningModal').style.display = 'none';
-
-/* 🛠️ PROFILE LOGIC */
 window.toggleProfileEdit = () => { const sec = document.getElementById('sidebarEditSection'); sec.style.display = (sec.style.display === 'none') ? 'block' : 'none'; };
 window.previewSidebarImg = (input) => { if (input.files && input.files[0]) { const reader = new FileReader(); reader.onload = (e) => { document.getElementById('userAvatar').innerHTML = `<img src="${e.target.result}">`; window.pendingPhoto = e.target.result; }; reader.readAsDataURL(input.files[0]); } };
 window.saveSidebarProfile = async () => {
@@ -287,7 +246,6 @@ window.saveSidebarProfile = async () => {
     try { await updateDoc(doc(db, "users", user.uid), updateData); alert("Profile Updated!"); toggleProfileEdit(); } catch(e) { alert(e.message); }
 };
 
-/* 🛠️ NAVIGATION & MODALS */
 window.handleSignOut = async () => { await signOut(auth); sessionStorage.removeItem("guest"); window.location.replace("auth.html"); };
 window.showResetModal = () => document.getElementById('resetModal').style.display = 'flex';
 window.hideResetModal = () => document.getElementById('resetModal').style.display = 'none';

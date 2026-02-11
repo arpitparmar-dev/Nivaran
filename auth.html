@@ -3,173 +3,43 @@
 <head>
 <meta charset="UTF-8">
 <title>NIVARAN – Login</title>
-
 <style>
-html, body {
-  width:100%;
-  height:100%;
-  margin:0;
-  padding:0;
-  overflow:hidden;
-  background:#F5F5DC;
-  font-family: Arial, sans-serif;
-}
-
-/* ===== BACKGROUND MANDALAS ===== */
-.mandala-left {
-  position:fixed;
-  left:0;
-  top:50%;
-  width:1050px;
-  height:1050px;
-  transform:translate(-50%, -50%);
-  opacity:0.35;
-  animation: rotateLeft 60s linear infinite;
-  z-index:0;
-  pointer-events:none;
-}
-
-.mandala-right {
-  position:fixed;
-  right:0;
-  top:0;
-  width:1100px;
-  height:1100px;
-  transform:translate(50%, -50%);
-  opacity:0.25;
-  animation: rotateRight 90s linear infinite;
-  z-index:0;
-  pointer-events:none;
-}
-
-@keyframes rotateLeft {
-  from { transform:translate(-50%, -50%) rotate(0deg); }
-  to   { transform:translate(-50%, -50%) rotate(360deg); }
-}
-
-@keyframes rotateRight {
-  from { transform:translate(50%, -50%) rotate(0deg); }
-  to   { transform:translate(50%, -50%) rotate(-360deg); }
-}
-
-/* ===== AUTH UI ===== */
-.auth-wrapper{
-  position:relative;
-  z-index:10;
-  height:100%;
-  display:flex;
-  align-items:center;
-  justify-content:center;
-}
-
-.card{
-  background:rgba(255,255,255,0.78);
-  backdrop-filter:blur(14px);
-  padding:40px;
-  border-radius:20px;
-  width:360px;
-  text-align:center;
-  box-shadow:0 12px 40px rgba(0,0,0,0.2);
-}
-
-h2{
-  color:#2A1503;
-  margin-bottom:20px;
-}
-
-input, button{
-  width:100%;
-  padding:14px;
-  margin-bottom:14px;
-  border-radius:12px;
-  font-size:14px;
-  box-sizing:border-box;
-}
-
-input{
-  border:1px solid #ccc;
-}
-
-button{
-  border:none;
-  background:#66350F;
-  color:white;
-  cursor:pointer;
-}
-
-button:hover{
-  background:#4a260a;
-}
-
-.toggle{
-  font-size:13px;
-  cursor:pointer;
-  color:#66350F;
-  margin-bottom:10px;
-}
-
-.guest{
-  font-size:13px;
-  cursor:pointer;
-  color:#444;
-}
-
-.error{
-  color:red;
-  font-size:13px;
-  margin-bottom:10px;
-  min-height:16px;
-}
-
-/* REMEMBER ME STYLING */
-.remember-me-container {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  margin-bottom: 15px;
-  font-size: 13px;
-  color: #2A1503;
-  cursor: pointer;
-  justify-content: flex-start;
-}
-.remember-me-container input {
-  width: 16px;
-  height: 16px;
-  margin: 0;
-  cursor: pointer;
-}
+html, body { width:100%; height:100%; margin:0; padding:0; overflow:hidden; background:#F5F5DC; font-family: Arial, sans-serif; }
+.mandala-left { position:fixed; left:0; top:50%; width:1050px; height:1050px; transform:translate(-50%, -50%); opacity:0.35; animation: rotateLeft 60s linear infinite; z-index:0; pointer-events:none; }
+.mandala-right { position:fixed; right:0; top:0; width:1100px; height:1100px; transform:translate(50%, -50%); opacity:0.25; animation: rotateRight 90s linear infinite; z-index:0; pointer-events:none; }
+@keyframes rotateLeft { from { transform:translate(-50%, -50%) rotate(0deg); } to { transform:translate(-50%, -50%) rotate(360deg); } }
+@keyframes rotateRight { from { transform:translate(50%, -50%) rotate(0deg); } to { transform:translate(50%, -50%) rotate(-360deg); } }
+.auth-wrapper{ position:relative; z-index:10; height:100%; display:flex; align-items:center; justify-content:center; }
+.card{ background:rgba(255,255,255,0.78); backdrop-filter:blur(14px); padding:40px; border-radius:20px; width:360px; text-align:center; box-shadow:0 12px 40px rgba(0,0,0,0.2); }
+h2{ color:#2A1503; margin-bottom:20px; }
+input, button{ width:100%; padding:14px; margin-bottom:14px; border-radius:12px; font-size:14px; box-sizing:border-box; }
+input{ border:1px solid #ccc; }
+button{ border:none; background:#66350F; color:white; cursor:pointer; font-weight:bold; }
+button:hover{ background:#4a260a; }
+.toggle, .guest{ font-size:13px; cursor:pointer; color:#66350F; margin-bottom:10px; }
+.error{ color:red; font-size:13px; margin-bottom:10px; min-height:16px; }
+.rem-container { display: flex; align-items: center; gap: 8px; font-size: 13px; color: #66350F; margin-bottom: 15px; cursor: pointer; justify-content: flex-start; }
+.rem-container input { width: 16px; margin: 0; height: 16px; }
 </style>
 </head>
-
 <body>
 
-<svg class="mandala-left" viewBox="0 0 600 600">
-  <g transform="translate(300 300)" fill="none" stroke="#2A1503" stroke-width="2">
-    <circle r="200"/><circle r="160"/><circle r="120"/>
-  </g>
-</svg>
-
-<svg class="mandala-right" viewBox="0 0 600 600">
-  <g transform="translate(300 300)" fill="none" stroke="#2A1503" stroke-width="2">
-    <circle r="150"/><circle r="110"/>
-  </g>
-</svg>
+<svg class="mandala-left" viewBox="0 0 600 600"><g transform="translate(300 300)" fill="none" stroke="#2A1503" stroke-width="2"><circle r="200"/><circle r="160"/><circle r="120"/></g></svg>
+<svg class="mandala-right" viewBox="0 0 600 600"><g transform="translate(300 300)" fill="none" stroke="#2A1503" stroke-width="2"><circle r="150"/><circle r="110"/></g></svg>
 
 <div class="auth-wrapper">
   <div class="card">
     <h2 id="title">Login</h2>
     <div class="error" id="error"></div>
-
     <input id="email" type="email" placeholder="Email">
     <input id="password" type="password" placeholder="Password">
     <input id="confirmPassword" type="password" placeholder="Confirm Password" style="display:none">
 
-    <label class="remember-me-container">
+    <label class="rem-container">
       <input type="checkbox" id="rememberMe"> Remember Me
     </label>
 
     <button id="submitBtn" onclick="submitAuth()">Login</button>
-
     <div class="toggle" onclick="toggleMode()">New user? Sign up</div>
     <div class="guest" onclick="guestLogin()">Continue as Guest</div>
   </div>
@@ -177,16 +47,8 @@ button:hover{
 
 <script type="module">
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
-import {
-  getAuth,
-  createUserWithEmailAndPassword,
-  signInWithEmailAndPassword,
-  setPersistence,
-  browserLocalPersistence,
-  browserSessionPersistence
-} from "https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js";
+import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, setPersistence, browserLocalPersistence, browserSessionPersistence, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js";
 
-/* FIREBASE CONFIG */
 const firebaseConfig = {
   apiKey: "AIzaSyCKav6YcbmYnX0OkzdDabF3SonOKB_BW-s",
   authDomain: "nivaran-62268.firebaseapp.com",
@@ -199,76 +61,51 @@ const firebaseConfig = {
 const app = initializeApp(firebaseConfig);
 const auth = getAuth(app);
 
-const email = document.getElementById("email");
-const password = document.getElementById("password");
-const confirmPassword = document.getElementById("confirmPassword");
-const rememberMe = document.getElementById("rememberMe");
-const error = document.getElementById("error");
-const title = document.getElementById("title");
-const submitBtn = document.getElementById("submitBtn");
+// Check if user is already remembered
+onAuthStateChanged(auth, (user) => {
+  if (user) window.location.replace("progress.html");
+});
 
 let mode = "login";
 
-/* ===== TOGGLE LOGIN / SIGNUP ===== */
-window.toggleMode = function(){
-  mode = mode === "login" ? "signup" : "login";
-  title.innerText = mode === "login" ? "Login" : "Sign Up";
-  confirmPassword.style.display = mode === "signup" ? "block" : "none";
-  submitBtn.innerText = mode === "login" ? "Login" : "Sign Up";
-  error.innerText = "";
+window.toggleMode = function() {
+  mode = (mode === "login") ? "signup" : "login";
+  document.getElementById("title").innerText = (mode === "login") ? "Login" : "Sign Up";
+  document.getElementById("confirmPassword").style.display = (mode === "signup") ? "block" : "none";
+  document.getElementById("submitBtn").innerText = (mode === "login") ? "Login" : "Sign Up";
+  document.getElementById("error").innerText = "";
 };
 
-/* ===== LOGIN / SIGNUP FUNCTION ===== */
-window.submitAuth = async function(){
+window.submitAuth = async function() {
+  const emailVal = document.getElementById("email").value;
+  const passVal = document.getElementById("password").value;
+  const rem = document.getElementById("rememberMe").checked;
+  const err = document.getElementById("error");
 
-  if(!email.value || !password.value){
-    error.innerText = "Please enter email and password.";
-    return;
-  }
-
-  try{
-    // 🔥 PERSISTENCE LOGIC
-    // Local = persists across browser restarts. Session = cleared when tab closes.
-    const persistence = rememberMe.checked ? browserLocalPersistence : browserSessionPersistence;
-    await setPersistence(auth, persistence);
+  try {
+    const persist = rem ? browserLocalPersistence : browserSessionPersistence;
+    await setPersistence(auth, persist);
 
     if(mode === "signup"){
-      if(password.value !== confirmPassword.value){
-        error.innerText = "Passwords do not match.";
-        return;
+      if(passVal !== document.getElementById("confirmPassword").value) { 
+        err.innerText = "Passwords do not match."; 
+        return; 
       }
-
-      await createUserWithEmailAndPassword(
-        auth,
-        email.value,
-        password.value
-      );
-
+      await createUserWithEmailAndPassword(auth, emailVal, passVal);
+      // Success! Move to userdata for new accounts
       window.location.replace("userdata.html");
-
     } else {
-      await signInWithEmailAndPassword(
-        auth,
-        email.value,
-        password.value
-      );
-
+      await signInWithEmailAndPassword(auth, emailVal, passVal);
+      // Success! Move to dashboard for existing accounts
       window.location.replace("progress.html");
     }
-
-  }catch(e){
-    error.innerText = e.message;
-  }
+  } catch(e) { err.innerText = e.message; }
 };
 
-/* ===== GUEST LOGIN ===== */
-window.guestLogin = function(){
+window.guestLogin = function() {
   sessionStorage.setItem("guest", "true");
   window.location.replace("progress.html");
 };
 </script>
-
-</body>
-</html>
 </body>
 </html>

@@ -3,16 +3,111 @@
 <head>
 <meta charset="UTF-8">
 <title>NIVARAN – Complete Profile</title>
+
 <style>
-body{ margin:0; height:100vh; display:flex; justify-content:center; align-items:center; background:#F5F5DC; font-family:Arial; }
-.card{ background:white; padding:40px; border-radius:20px; width:360px; text-align:center; box-shadow:0 12px 40px rgba(0,0,0,0.2); }
-input, select, button{ width:100%; padding:12px; margin-bottom:15px; border-radius:10px; border:1px solid #ccc; box-sizing:border-box; }
-button{ background:#66350F; color:white; border:none; cursor:pointer; font-weight:bold; }
-button:hover{ background:#4a260a; }
-.error{ color:red; font-size:13px; margin-bottom:10px; }
+body{
+  margin:0;
+  height:100vh;
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  background:#F5F5DC;
+  font-family:Arial;
+  overflow: hidden; /* Added to prevent scrollbars from mandalas */
+}
+
+/* ===== BACKGROUND MANDALAS ===== */
+.mandala-left {
+  position:fixed;
+  left:0;
+  top:50%;
+  width:1050px;
+  height:1050px;
+  transform:translate(-50%, -50%);
+  opacity:0.35;
+  animation: rotateLeft 60s linear infinite;
+  z-index:0;
+  pointer-events:none;
+}
+
+.mandala-right {
+  position:fixed;
+  right:0;
+  top:0;
+  width:1100px;
+  height:1100px;
+  transform:translate(50%, -50%);
+  opacity:0.25;
+  animation: rotateRight 90s linear infinite;
+  z-index:0;
+  pointer-events:none;
+}
+
+@keyframes rotateLeft {
+  from { transform:translate(-50%, -50%) rotate(0deg); }
+  to   { transform:translate(-50%, -50%) rotate(360deg); }
+}
+
+@keyframes rotateRight {
+  from { transform:translate(50%, -50%) rotate(0deg); }
+  to   { transform:translate(50%, -50%) rotate(-360deg); }
+}
+
+.card{
+  background:rgba(255,255,255,0.85); /* Slightly transparent to see mandalas */
+  backdrop-filter: blur(10px); /* Matches the login page feel */
+  padding:40px;
+  border-radius:20px;
+  width:360px;
+  text-align:center;
+  box-shadow:0 12px 40px rgba(0,0,0,0.2);
+  position: relative;
+  z-index: 10;
+}
+
+input, select, button{
+  width:100%;
+  padding:12px;
+  margin-bottom:15px;
+  border-radius:10px;
+  border:1px solid #ccc;
+  box-sizing:border-box;
+}
+
+button{
+  background:#66350F;
+  color:white;
+  border:none;
+  cursor:pointer;
+  font-weight:bold;
+}
+
+button:hover{
+  background:#4a260a;
+}
+
+.error{
+  color:red;
+  font-size:13px;
+  margin-bottom:10px;
+}
 </style>
 </head>
+
 <body>
+
+<svg class="mandala-left" viewBox="0 0 600 600">
+  <g transform="translate(300 300)" fill="none" stroke="#2A1503" stroke-width="2">
+    <circle r="200"/><circle r="160"/><circle r="120"/>
+  </g>
+</svg>
+
+<svg class="mandala-right" viewBox="0 0 600 600">
+  <g transform="translate(300 300)" fill="none" stroke="#2A1503" stroke-width="2">
+    <circle r="150"/><circle r="110"/>
+  </g>
+</svg>
+
 <div class="card">
   <h2>Complete Your Profile</h2>
   <div class="error" id="error"></div>

@@ -1,179 +1,3 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-<meta charset="UTF-8">
-<title>NIVARAN – Login</title>
-
-<style>
-html, body {
-  width:100%;
-  height:100%;
-  margin:0;
-  padding:0;
-  overflow:hidden;
-  background:#F5F5DC;
-  font-family: Arial, sans-serif;
-}
-
-/* ===== BACKGROUND MANDALAS ===== */
-.mandala-left {
-  position:fixed;
-  left:0;
-  top:50%;
-  width:1050px;
-  height:1050px;
-  transform:translate(-50%, -50%);
-  opacity:0.35;
-  animation: rotateLeft 60s linear infinite;
-  z-index:0;
-  pointer-events:none;
-}
-
-.mandala-right {
-  position:fixed;
-  right:0;
-  top:0;
-  width:1100px;
-  height:1100px;
-  transform:translate(50%, -50%);
-  opacity:0.25;
-  animation: rotateRight 90s linear infinite;
-  z-index:0;
-  pointer-events:none;
-}
-
-@keyframes rotateLeft {
-  from { transform:translate(-50%, -50%) rotate(0deg); }
-  to   { transform:translate(-50%, -50%) rotate(360deg); }
-}
-
-@keyframes rotateRight {
-  from { transform:translate(50%, -50%) rotate(0deg); }
-  to   { transform:translate(50%, -50%) rotate(-360deg); }
-}
-
-/* ===== AUTH UI ===== */
-.auth-wrapper{
-  position:relative;
-  z-index:10;
-  height:100%;
-  display:flex;
-  align-items:center;
-  justify-content:center;
-}
-
-.card{
-  background:rgba(255,255,255,0.78);
-  backdrop-filter:blur(14px);
-  padding:40px;
-  border-radius:20px;
-  width:360px;
-  text-align:center;
-  box-shadow:0 12px 40px rgba(0,0,0,0.2);
-}
-
-h2{
-  color:#2A1503;
-  margin-bottom:20px;
-}
-
-input, button{
-  width:100%;
-  padding:14px;
-  margin-bottom:14px;
-  border-radius:12px;
-  font-size:14px;
-  box-sizing:border-box;
-}
-
-input{
-  border:1px solid #ccc;
-}
-
-/* REMEMBER ME STYLING */
-.remember-container {
-  display: flex;
-  align-items: center;
-  justify-content: flex-start;
-  margin-bottom: 14px;
-  font-size: 13px;
-  color: #2A1503;
-}
-
-.remember-container input {
-  width: auto;
-  margin: 0 8px 0 0;
-  cursor: pointer;
-}
-
-button{
-  border:none;
-  background:#66350F;
-  color:white;
-  cursor:pointer;
-}
-
-button:hover{
-  background:#4a260a;
-}
-
-.toggle{
-  font-size:13px;
-  cursor:pointer;
-  color:#66350F;
-  margin-bottom:10px;
-}
-
-.guest{
-  font-size:13px;
-  cursor:pointer;
-  color:#444;
-}
-
-.error{
-  color:red;
-  font-size:13px;
-  margin-bottom:10px;
-  min-height:16px;
-}
-</style>
-</head>
-
-<body>
-
-<svg class="mandala-left" viewBox="0 0 600 600">
-  <g transform="translate(300 300)" fill="none" stroke="#2A1503" stroke-width="2">
-    <circle r="200"/><circle r="160"/><circle r="120"/>
-  </g>
-</svg>
-
-<svg class="mandala-right" viewBox="0 0 600 600">
-  <g transform="translate(300 300)" fill="none" stroke="#2A1503" stroke-width="2">
-    <circle r="150"/><circle r="110"/>
-  </g>
-</svg>
-
-<div class="auth-wrapper">
-  <div class="card">
-    <h2 id="title">Login</h2>
-    <div class="error" id="error"></div>
-
-    <input id="email" placeholder="Email">
-    <input id="password" type="password" placeholder="Password">
-    <input id="confirmPassword" type="password" placeholder="Confirm Password" style="display:none">
-
-    <div class="remember-container" id="rememberBox">
-        <input type="checkbox" id="rememberMe">
-        <label for="rememberMe">Remember Me</label>
-    </div>
-
-    <button id="authBtn" onclick="submitAuth()">Login</button>
-
-    <div class="toggle" id="toggleText" onclick="toggleMode()">New user? Sign up</div>
-    <div class="guest" onclick="guestLogin()">Continue as Guest</div>
-  </div>
-</div>
-
 <script type="module">
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
 import {
@@ -201,10 +25,19 @@ const auth = getAuth(app);
 
 let mode = "login";
 
-// CHECK IF USER IS ALREADY LOGGED IN (This makes "Remember Me" work)
+// --- UPDATED LOGIC ---
 onAuthStateChanged(auth, (user) => {
-  if (user) {
+  // Check if the user is on this page because they just clicked "Sign Out"
+  const isLoggingOut = sessionStorage.getItem("logging_out");
+
+  if (user && !isLoggingOut) {
+    // If they are logged in and NOT logging out, go to dashboard
     window.location.replace("progress.html");
+  } else {
+    // If they logged out, clear the flag so they can log in again later
+    sessionStorage.removeItem("logging_out");
+    // Show the card (if you added the flicker-fix)
+    document.querySelector('.card').style.display = "block";
   }
 });
 
@@ -230,10 +63,9 @@ window.submitAuth = async function(){
       return;
   }
 
-  authBtn.disabled = true; // Prevent double clicks / too many requests
+  authBtn.disabled = true;
 
   try{
-    // Set how Firebase remembers the session
     const persistence = rememberMe ? browserLocalPersistence : browserSessionPersistence;
     await setPersistence(auth, persistence);
 
@@ -248,8 +80,6 @@ window.submitAuth = async function(){
     } else {
       await signInWithEmailAndPassword(auth, email, password);
     }
-    
-    // Redirect is handled by onAuthStateChanged above
   } catch(e) {
     errorDiv.innerText = e.message;
     authBtn.disabled = false;
@@ -261,6 +91,3 @@ window.guestLogin = function(){
   window.location.replace("progress.html");
 };
 </script>
-
-</body>
-</html>

@@ -184,15 +184,6 @@ import {
   browserLocalPersistence,
   browserSessionPersistence
 } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js";
-import { onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js";
-
-// Check if user is already logged in when the page loads
-onAuthStateChanged(auth, (user) => {
-  if (user) {
-    // User is signed in, redirect them automatically
-    window.location.replace("progress.html");
-  }
-});
 
 /* FIREBASE CONFIG */
 const firebaseConfig = {
@@ -265,3 +256,5 @@ window.guestLogin = function(){
 
 </body>
 </html>
+
+

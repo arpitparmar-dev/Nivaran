@@ -16,7 +16,6 @@ const STAT_MAP = {
     "Junk Food": "jf"
 };
 
-// --- UNIQUE DAY-BY-DAY MISSIONS ---
 const DAILY_MISSIONS = {
     sm: [
         "Day 1: Uninstall one non-essential social app.",
@@ -56,7 +55,6 @@ const DAILY_MISSIONS = {
     ]
 };
 
-// --- UNIQUE ROUTINE TASKS ---
 const DAILY_ROUTINES = {
     1: ["Morning Stretch", "Plan the Day", "10 Min Meditation"],
     2: ["Drink Water First", "Read 5 Pages", "Journal Feelings"],
@@ -67,217 +65,91 @@ const DAILY_ROUTINES = {
     7: ["Reflect on Week 1", "Clean Environment", "Digital Detox"]
 };
 
-// 🧠 ADDICTION RECOVERY PROTOCOL (7-Day Cycles)
-const RECOVERY_PROTOCOL = {
-
-    sm: [
-        {
-            diet: "High-protein breakfast + banana",
-            physical: "20 min brisk walk",
-            mental: "10 min meditation",
-            music: "Lo-fi focus",
-            lifestyle: "No phone first 60 min"
-        },
-        {
-            diet: "Walnuts + dark chocolate",
-            physical: "Bodyweight workout 25 min",
-            mental: "Journaling",
-            music: "Soft piano",
-            lifestyle: "Grayscale phone"
-        },
-        {
-            diet: "Omega-3 rich meal",
-            physical: "Strength training 30 min",
-            mental: "Deep work 45 min",
-            music: "Ambient instrumental",
-            lifestyle: "No scrolling after 8PM"
-        },
-        {
-            diet: "No sugar today",
-            physical: "HIIT 20 min",
-            mental: "Cold shower 30 sec",
-            music: "Motivational instrumental",
-            lifestyle: "Notifications off"
-        },
-        {
-            diet: "Green smoothie + protein",
-            physical: "Yoga 25 min",
-            mental: "Gratitude practice",
-            music: "Nature sounds",
-            lifestyle: "Social media max 20 min"
-        },
-        {
-            diet: "Clean eating",
-            physical: "Outdoor walk 40 min",
-            mental: "Visualization",
-            music: "Deep focus",
-            lifestyle: "No phone during meals"
-        },
-        {
-            diet: "Balanced meal",
-            physical: "Stretch + light cardio",
-            mental: "Weekly reflection",
-            music: "Silence challenge",
-            lifestyle: "24h digital detox"
-        }
-    ],
-
-    sa: [
-        {
-            diet: "Vitamin C rich fruits",
-            physical: "Fast walk 25 min",
-            mental: "Urge surfing",
-            music: "Calm instrumental",
-            lifestyle: "Avoid trigger place"
-        },
-        {
-            diet: "Green detox smoothie",
-            physical: "Light jog 20 min",
-            mental: "4-7-8 breathing",
-            music: "Soft recovery",
-            lifestyle: "Drink 3L water"
-        },
-        {
-            diet: "High protein + fiber",
-            physical: "Strength workout",
-            mental: "Write benefits",
-            music: "Motivational beats",
-            lifestyle: "Avoid trigger friends"
-        },
-        {
-            diet: "No caffeine",
-            physical: "Yoga 30 min",
-            mental: "Cold exposure",
-            music: "Instrumental focus",
-            lifestyle: "Sleep early"
-        },
-        {
-            diet: "Antioxidant rich meal",
-            physical: "Cardio 35 min",
-            mental: "Guided meditation",
-            music: "432Hz healing",
-            lifestyle: "Sunlight 20 min"
-        },
-        {
-            diet: "Hydration focus",
-            physical: "Strength training",
-            mental: "Visualize clean lungs",
-            music: "Upbeat instrumental",
-            lifestyle: "No junk food"
-        },
-        {
-            diet: "Balanced clean diet",
-            physical: "Stretching",
-            mental: "Reflect progress",
-            music: "Silence",
-            lifestyle: "Digital minimal day"
-        }
-    ],
-
-    gm: [
-        {
-            diet: "Protein breakfast + nuts",
-            physical: "Brisk walk 30 min",
-            mental: "No-screen deep work 45 min",
-            music: "Lo-fi beats",
-            lifestyle: "No gaming before 6PM"
-        },
-        {
-            diet: "Balanced complex carbs",
-            physical: "Bodyweight workout",
-            mental: "Write why gaming controls you",
-            music: "Ambient instrumental",
-            lifestyle: "Uninstall one launcher"
-        },
-        {
-            diet: "Hydration + fruits",
-            physical: "Stretch & posture work",
-            mental: "Pomodoro x2",
-            music: "Brown noise",
-            lifestyle: "Controller stored away"
-        },
-        {
-            diet: "No sugar",
-            physical: "HIIT or sport",
-            mental: "Cold exposure",
-            music: "Motivational instrumental",
-            lifestyle: "No gaming content"
-        },
-        {
-            diet: "Omega-3 rich meal",
-            physical: "Strength training",
-            mental: "Visualize addiction-free self",
-            music: "Deep focus",
-            lifestyle: "30 min max gaming"
-        },
-        {
-            diet: "Clean eating",
-            physical: "Outdoor walk 45 min",
-            mental: "Learn a real skill",
-            music: "Nature sounds",
-            lifestyle: "Gaming-free day"
-        },
-        {
-            diet: "Balanced comfort meal",
-            physical: "Light stretching",
-            mental: "Weekly reflection",
-            music: "Silence",
-            lifestyle: "Delete one game"
-        }
-    ],
-
-    jf: [
-        {
-            diet: "Whole-food breakfast",
-            physical: "Morning walk",
-            mental: "Mindful eating",
-            music: "Calm instrumental",
-            lifestyle: "No food apps"
-        },
-        {
-            diet: "High fiber + protein",
-            physical: "Light cardio",
-            mental: "Learn food triggers",
-            music: "Soft lo-fi",
-            lifestyle: "No eating after 8PM"
-        },
-        {
-            diet: "No processed food",
-            physical: "Yoga 30 min",
-            mental: "10 min craving delay",
-            music: "Healing ambient",
-            lifestyle: "Cook all meals"
-        },
-        {
-            diet: "Low-GI meals",
-            physical: "Strength workout",
-            mental: "Cold water splash",
-            music: "Motivational instrumental",
-            lifestyle: "Avoid snack aisles"
-        },
-        {
-            diet: "Fruits + nuts",
-            physical: "Post-meal walk",
-            mental: "Journal emotional eating",
-            music: "Rain sounds",
-            lifestyle: "No sugary drinks"
-        },
-        {
-            diet: "Clean balanced meals",
-            physical: "Active hobby",
-            mental: "Visualize body goals",
-            music: "Focus instrumental",
-            lifestyle: "Zero junk food"
-        },
-        {
-            diet: "Intuitive eating",
-            physical: "Light stretching",
-            mental: "Weekly food reflection",
-            music: "Silence",
-            lifestyle: "Meal prep"
-        }
-    ]
+const MEALS = {
+    sm: {
+        breakfast: ["Oatmeal (Oats) with nuts and banana", "Vegetable omelette (Masala Omelette) + whole wheat toast", "Greek yogurt (Dahi) + berries and seeds", "Peanut butter toast + apple", "Tofu scramble + fruit bowl"],
+        lunch: ["Brown rice + lentil curry (Dal) + mixed vegetables (Sabzi)", "Quinoa + grilled chicken/tofu + salad", "Whole wheat flatbread (Roti) + cottage cheese curry (Paneer)", "Chickpea curry (Chole) + brown rice"],
+        dinner: ["Vegetable soup + grilled cottage cheese (Paneer)", "Stir-fried vegetables + tofu", "Spinach soup (Palak Soup) + salad", "Light lentil-rice porridge (Khichdi)"]
+    },
+    sa: {
+        breakfast: ["Citrus fruits (Orange/Amla) + oatmeal", "Green smoothie (Spinach + Apple)", "Boiled eggs + whole wheat toast", "Greek yogurt (Dahi) + flax seeds"],
+        lunch: ["Brown rice + beetroot + lentil curry (Dal)", "Grilled chicken/tofu + steamed broccoli", "Kidney bean curry (Rajma) + brown rice", "Quinoa + mixed vegetable curry"],
+        dinner: ["Vegetable soup + turmeric milk", "Clear chicken soup", "Spinach curry (Palak) + whole wheat flatbread", "Light khichdi + ghee"]
+    },
+    gm: {
+        breakfast: ["Oatmeal + peanut butter + banana", "Egg omelette + whole wheat toast", "Banana peanut butter smoothie", "Sprouts salad + boiled eggs"],
+        lunch: ["Brown rice + grilled protein + salad", "Sweet potato + lentil curry (Dal)", "Whole wheat flatbread + cottage cheese curry", "Chickpea curry (Chole) + quinoa"],
+        dinner: ["Grilled tofu + sautéed vegetables", "Mixed salad bowl + eggs", "Lentil soup + whole wheat flatbread", "Vegetable curry + quinoa"]
+    },
+    jf: {
+        breakfast: ["Vegetable omelette + fruit", "Sprouts salad + nuts", "Oatmeal (Oats) + chia seeds", "Greek yogurt (Dahi) + apple"],
+        lunch: ["Brown rice + lentil curry + salad", "Grilled tofu/chicken + steamed vegetables", "Whole wheat flatbread + vegetable curry", "Lentil-rice porridge (Khichdi)"],
+        dinner: ["Vegetable soup + salad", "Stir-fried vegetables + tofu", "Spinach soup (Palak Soup)", "Light lentil curry + whole wheat flatbread"]
+    }
 };
+
+function getPhase(day){
+    if(day <= 7) return 1;
+    if(day <= 21) return 2;
+    if(day <= 30) return 3;
+    if(day <= 60) return 4;
+    if(day <= 75) return 5;
+    return 6;
+}
+
+function generateRecoveryPlan(key, day){
+    const phase = getPhase(day);
+    const workout = 15 + (day * 0.5);
+    const meditation = 5 + (day * 0.2);
+    const sunlight = 10 + Math.floor(day / 5);
+    const meals = MEALS[key];
+
+    const breakfast = meals.breakfast[day % meals.breakfast.length];
+    const lunch = meals.lunch[(day * 2) % meals.lunch.length];
+    const dinner = meals.dinner[(day * 3) % meals.dinner.length];
+
+    let plan = {};
+    const detailedDietContent = `🥣 BREAKFAST:\n• ${breakfast}\n\n🍛 LUNCH:\n• ${lunch}\n\n🍲 DINNER:\n• ${dinner}\n\n🚫 AVOID:\n• Processed sugar\n• Fried packaged snacks\n• Sugary beverages\n\n💧 WATER:\n• 2.5–3 Litres daily`;
+
+    if(key === "sm"){
+        plan = {
+            shortDiet: "High protein + low sugar discipline",
+            detailedDiet: detailedDietContent,
+            physical: `${workout.toFixed(0)} mins brisk walk + posture correction.`,
+            mental: `${meditation.toFixed(0)} mins meditation + deep work session.`,
+            music: phase < 3 ? "Lo-fi / Ambient focus" : phase < 5 ? "Binaural concentration beats" : "High-focus performance instrumentals",
+            lifestyle: `${sunlight} mins morning sunlight + fixed screen schedule.`
+        };
+    } else if(key === "sa"){
+        plan = {
+            shortDiet: "Detox + lung & liver recovery",
+            detailedDiet: detailedDietContent,
+            physical: `${workout.toFixed(0)} mins cardio + breathing drills.`,
+            mental: `${meditation.toFixed(0)} mins urge surfing.`,
+            music: phase < 3 ? "Calm healing instrumental" : phase < 5 ? "Recovery frequency music" : "Transformation motivation beats",
+            lifestyle: `${sunlight} mins sunlight + avoid trigger areas.`
+        };
+    } else if(key === "gm"){
+        plan = {
+            shortDiet: "Stable energy, no sugar spikes",
+            detailedDiet: detailedDietContent,
+            physical: `${workout.toFixed(0)} mins strength training.`,
+            mental: `${meditation.toFixed(0)} mins focus training.`,
+            music: phase < 3 ? "Focus lo-fi" : phase < 5 ? "Cognitive performance music" : "High intensity gym soundtrack",
+            lifestyle: `${sunlight} mins outdoor exposure.`
+        };
+    } else if(key === "jf"){
+        plan = {
+            shortDiet: "Whole food reset + sugar elimination",
+            detailedDiet: detailedDietContent,
+            physical: `${workout.toFixed(0)} mins fat-burn workout.`,
+            mental: `${meditation.toFixed(0)} mins mindful eating.`,
+            music: phase < 3 ? "Calm discipline playlist" : phase < 5 ? "Focused training beats" : "Hardcore workout motivation",
+            lifestyle: `${sunlight} mins post-meal walk.`
+        };
+    }
+    return plan;
+}
 
 function initApp() {
     document.getElementById('currentUserName').innerText = appData.user.name;
@@ -306,12 +178,10 @@ function openAddiction(type) {
     document.getElementById('dashboard').style.display = "none";
     document.getElementById('addictionPage').style.display = "block";
     
-    // Sync Widgets
     document.getElementById('widgetDay').innerText = currentDay;
     document.getElementById('widgetStreak').innerText = appData[key].streak;
     
-    // Load UNIQUE Mission
-    const missionIndex = (currentDay - 1) % 7; // Cycles every 7 days, or expand list
+    const missionIndex = (currentDay - 1) % 7; 
     const mission = DAILY_MISSIONS[key][missionIndex] || "Keep pushing forward!";
     document.getElementById('specialTaskBox').innerHTML = `
         <div class="card special-mission">
@@ -319,27 +189,80 @@ function openAddiction(type) {
             <p style="margin:0; font-weight:bold;">${mission}</p>
         </div>`;
     
-    // Load UNIQUE Routine
+    const recovery = generateRecoveryPlan(key, currentDay);
+
+    if (recovery) {
+        document.getElementById('specialTaskBox').innerHTML += `
+            <div class="card" style="margin-top:15px;">
+                <h4 style="color:var(--secondary); margin-bottom:10px;">💪 Recovery Boost Plan</h4>
+
+                <div style="display: flex; align-items: center; justify-content: space-between; cursor: pointer; margin-bottom: 8px;" onclick="toggleSection('moreDetails', 'arrowIconDiet')">
+                    <p style="margin:0;"><b>🥗 Diet:</b> ${recovery.shortDiet}</p>
+                    <span id="arrowIconDiet" style="transition: 0.3s; font-size: 14px; opacity: 0.7;">▶</span>
+                </div>
+                <div id="moreDetails" style="display:none; margin-top:5px; margin-bottom:10px; white-space:pre-line; border-top: 1px solid rgba(0,0,0,0.1); padding-top:10px;">
+                    <p style="font-size: 17px; font-weight: bold; margin:0; color: var(--primary);">Detailed Diet Plan:</p>
+                    <div style="font-size: 16px; line-height: 1.3; font-weight: 500; margin-top: 5px;">
+                        ${recovery.detailedDiet}
+                    </div>
+                </div>
+
+                <div style="display: flex; align-items: center; justify-content: space-between; cursor: pointer; margin-bottom: 8px;" onclick="toggleSection('morePhysical', 'arrowIconPhys')">
+                    <p style="margin:0;"><b>🏃 Physical:</b> ${recovery.physical}</p>
+                    <span id="arrowIconPhys" style="transition: 0.3s; font-size: 14px; opacity: 0.7;">▶</span>
+                </div>
+                <div id="morePhysical" style="display:none; margin-top:5px; margin-bottom:10px; border-top: 1px solid rgba(0,0,0,0.1); padding-top:10px;">
+                    <p style="font-size: 15px; font-weight: bold; margin-bottom: 8px; color: var(--primary);">Exercise Routines:</p>
+                    <a href="https://youtu.be/KaIeBaxzIqs?si=X7DBb4Cdc528aTyV" target="_blank" 
+                       style="display: block; background: #66350F; color: white; padding: 6px 12px; border-radius: 6px; text-decoration: none; font-weight: bold; font-size: 11px; margin-bottom: 6px; width: fit-content;">
+                       ▶ WALKING WORKOUT
+                    </a>
+                    <a href="https://youtu.be/XWQvmh_INTQ?si=YUwz7AdacW9M9YpX" target="_blank" 
+                       style="display: block; background: #66350F; color: white; padding: 6px 12px; border-radius: 6px; text-decoration: none; font-weight: bold; font-size: 11px; width: fit-content;">
+                       ▶ POSTURE ROUTINE
+                    </a>
+                </div>
+
+                <div style="display: flex; align-items: center; justify-content: space-between; cursor: pointer; margin-bottom: 8px;" onclick="toggleSection('moreMental', 'arrowIconMental')">
+                    <p style="margin:0;"><b>🧘 Mental:</b> ${recovery.mental}</p>
+                    <span id="arrowIconMental" style="transition: 0.3s; font-size: 14px; opacity: 0.7;">▶</span>
+                </div>
+                <div id="moreMental" style="display:none; margin-top:5px; margin-bottom:10px; border-top: 1px solid rgba(0,0,0,0.1); padding-top:10px;">
+                    <p style="font-size: 15px; font-weight: bold; margin-bottom: 8px; color: var(--primary);">Mindfulness:</p>
+                    <div style="font-size: 14px; line-height: 1.4; margin-bottom: 10px;">Focus on your breath and observe your thoughts without judgment to build impulse control.</div>
+                    <a href="https://youtu.be/DaHH--jJBtg?si=zwUw0w9NIGM3iTqw" target="_blank" 
+                       style="display: block; background: #66350F; color: white; padding: 6px 12px; border-radius: 6px; text-decoration: none; font-weight: bold; font-size: 11px; width: fit-content;">
+                       ▶ WATCH MEDITATION
+                    </a>
+                </div>
+
+                <div style="display: flex; align-items: center; justify-content: space-between; cursor: pointer; margin-bottom: 8px;" onclick="toggleSection('moreMusic', 'arrowIconMusic')">
+                    <p style="margin:0;"><b>🎵 Music:</b> ${recovery.music}</p>
+                    <span id="arrowIconMusic" style="transition: 0.3s; font-size: 14px; opacity: 0.7;">▶</span>
+                </div>
+                <div id="moreMusic" style="display:none; margin-top:5px; margin-bottom:10px; border-top: 1px solid rgba(0,0,0,0.1); padding-top:10px;">
+                    <p style="font-size: 15px; font-weight: bold; margin-bottom: 8px; color: var(--primary);">Audio Therapy:</p>
+                    <div style="font-size: 14px; line-height: 1.4; margin-bottom: 10px;">Binaural beats and focus tracks designed to help rewire reward pathways.</div>
+                    <a href="https://youtu.be/Vbmx-XFdS8s?si=MbZr2XzXXUdTG-BW" target="_blank" 
+                       style="display: block; background: #66350F; color: white; padding: 6px 12px; border-radius: 6px; text-decoration: none; font-weight: bold; font-size: 11px; width: fit-content;">
+                       ▶ LISTEN TO LOFI
+                    </a>
+                </div>
+
+                <div style="display: flex; align-items: center; justify-content: space-between; cursor: pointer; margin-bottom: 8px;" onclick="toggleSection('moreLifestyle', 'arrowIconLifestyle')">
+                    <p style="margin:0;"><b>🌞 Lifestyle:</b> ${recovery.lifestyle}</p>
+                    <span id="arrowIconLifestyle" style="transition: 0.3s; font-size: 14px; opacity: 0.7;">▶</span>
+                </div>
+                <div id="moreLifestyle" style="display:none; margin-top:5px; margin-bottom:10px; border-top: 1px solid rgba(0,0,0,0.1); padding-top:10px;">
+                    <p style="font-size: 15px; font-weight: bold; margin-bottom: 5px; color: var(--primary);">Routine Mastery:</p>
+                    <div style="font-size: 14px; line-height: 1.4;">Establish a fixed environment to reduce the brain's reliance on addictive triggers.</div>
+                </div>
+            </div>
+        `;
+    }
+
     const routineIndex = ((currentDay - 1) % 7) + 1;
     const routine = DAILY_ROUTINES[routineIndex] || ["Standard Check-in", "Stay Focused", "Sleep Early"];
-// 🔥 Load Recovery Protocol (rotates every 7 days)
-const recoveryIndex = (currentDay - 1) % 7;
-const recovery = RECOVERY_PROTOCOL[key] 
-    ? RECOVERY_PROTOCOL[key][recoveryIndex]
-    : null;
-
-if (recovery) {
-    document.getElementById('specialTaskBox').innerHTML += `
-        <div class="card" style="margin-top:15px;">
-            <h4 style="color:var(--secondary); margin-bottom:10px;">🧠 Recovery Boost Plan</h4>
-            <p><b>🥗 Diet:</b> ${recovery.diet}</p>
-            <p><b>🏃 Physical:</b> ${recovery.physical}</p>
-            <p><b>🧘 Mental:</b> ${recovery.mental}</p>
-            <p><b>🎵 Music:</b> ${recovery.music}</p>
-            <p><b>🌞 Lifestyle:</b> ${recovery.lifestyle}</p>
-        </div>
-    `;
-}
 
     document.getElementById('routineHeading').innerText = `Day ${currentDay} Routine`;
     document.getElementById('taskList').innerHTML = routine.map(t => `
@@ -353,6 +276,30 @@ if (recovery) {
     updateTrophyUI();
 }
 
+// --- WHY MODAL FUNCTIONS ---
+function showWhyModal(){
+    const key = STAT_MAP[currentAddiction];
+    let content = "";
+
+    if(key === "sm"){
+        content = `<b>📱 Mobile / Social Media Addiction</b><br><br>🥗 Diet stabilizes dopamine by preventing sugar spikes that mimic social media reward loops.<br><br>🏃 Physical activity increases natural dopamine and serotonin, reducing craving for screen stimulation.<br><br>🧘 Meditation strengthens impulse control and reduces compulsive checking behavior.`;
+    } else if(key === "sa"){
+        content = `<b>🚬 Smoking / Alcohol Recovery</b><br><br>🥗 Antioxidant-rich foods repair liver and lung damage while reducing withdrawal fatigue.<br><br>🏃 Cardio improves oxygen flow and speeds toxin removal.<br><br>🧘 Urge surfing retrains the brain to tolerate cravings without reacting.`;
+    } else if(key === "gm"){
+        content = `<b>🎮 Gaming Addiction</b><br><br>🥗 Stable meals prevent blood sugar crashes that increase gaming urges.<br><br>🏃 Strength training boosts real-world achievement dopamine.<br><br>🧘 Focus training rebuilds attention span damaged by fast-paced gaming.`;
+    } else if(key === "jf"){
+        content = `<b>🍔 Junk Food Addiction</b><br><br>🥗 Whole foods reset gut bacteria that drive sugar cravings.<br><br>🏃 Exercise increases insulin sensitivity and reduces craving intensity.<br><br>🧘 Mindful eating rebuilds awareness between hunger and emotional eating.`;
+    }
+
+    document.getElementById("whyContent").innerHTML = content;
+    document.getElementById("whyModal").style.display = "flex";
+}
+
+function closeWhyModal(){
+    document.getElementById("whyModal").style.display = "none";
+}
+
+// --- UTILITY FUNCTIONS ---
 function markDone() {
     const key = STAT_MAP[currentAddiction];
     const checks = document.querySelectorAll('#taskList input[type="checkbox"]');
@@ -360,12 +307,10 @@ function markDone() {
         showWarning();
         return;
     }
-
     appData[key].streak++;
     if(appData[key].streak % 3 === 0) appData[key].shields++;
     appData[key].done[appData[key].day] = true;
     localStorage.setItem("niv_v_final", JSON.stringify(appData));
-
     confetti({ particleCount: 150, spread: 70 });
     document.getElementById('taskContent').style.display = "none";
     document.getElementById('successCard').style.display = "block";
@@ -387,20 +332,39 @@ function updateTrophyUI() {
     const currentM = MILESTONES.find(m => day <= m) || 120;
     const prevM = MILESTONES[MILESTONES.indexOf(currentM) - 1] || 0;
     const progress = (day - prevM) / (currentM - prevM);
-
     document.getElementById('shieldCount').innerText = appData[key].shields;
     const trophy = document.getElementById('trophyPath');
-    
     if (day <= 7) trophy.style.stroke = "#d1ccbc";
     else if (day <= 21) trophy.style.stroke = "url(#bronze)";
     else if (day <= 75) trophy.style.stroke = "url(#silver)";
     else trophy.style.stroke = "url(#gold)";
-
     document.getElementById('milestoneLabel').innerText = `Goal: Day ${currentM}`;
     trophy.style.strokeDashoffset = 260 - (260 * progress);
 }
 
-// --- MODALS & PROFILE ---
+function toggleSection(sectionId, arrowId) {
+    const box = document.getElementById(sectionId);
+    const arrow = document.getElementById(arrowId);
+    if(box.style.display === "none"){
+        box.style.display = "block";
+        arrow.style.transform = "rotate(90deg)";
+    } else {
+        box.style.display = "none";
+        arrow.style.transform = "rotate(0deg)";
+    }
+}
+
+function goBack() {
+    document.getElementById('dashboard').style.display="block";
+    document.getElementById('addictionPage').style.display="none";
+    updateSidebarBars();
+}
+
+function toggleSidebar() {
+    const open = document.getElementById('sidebar').classList.toggle('open');
+    document.getElementById('sidebarOverlay').style.display = open ? "block" : "none";
+}
+
 function showWarning() { document.getElementById('warningModal').style.display = "flex"; }
 function hideWarning() { document.getElementById('warningModal').style.display = "none"; }
 function showResetModal() { document.getElementById('resetModal').style.display="flex"; }
@@ -424,13 +388,4 @@ function previewImg(input) {
 }
 function applyAvatar(src) { 
     document.getElementById('userAvatar').innerHTML = `<img src="${src}" style="width:100%; height:100%; object-fit:cover;">`; 
-}
-function toggleSidebar() { 
-    const open = document.getElementById('sidebar').classList.toggle('open');
-    document.getElementById('sidebarOverlay').style.display = open ? "block" : "none";
-}
-function goBack() { 
-    document.getElementById('dashboard').style.display="block"; 
-    document.getElementById('addictionPage').style.display="none"; 
-    updateSidebarBars();
 }

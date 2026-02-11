@@ -1,13 +1,167 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>NIVARAN – Login</title>
+
+<style>
+html, body {
+  width:100%;
+  height:100%;
+  margin:0;
+  padding:0;
+  overflow:hidden;
+  background:#F5F5DC;
+  font-family: Arial, sans-serif;
+}
+
+/* ===== BACKGROUND MANDALAS ===== */
+.mandala-left {
+  position:fixed;
+  left:0;
+  top:50%;
+  width:1050px;
+  height:1050px;
+  transform:translate(-50%, -50%);
+  opacity:0.35;
+  animation: rotateLeft 60s linear infinite;
+  z-index:0;
+  pointer-events:none;
+}
+
+.mandala-right {
+  position:fixed;
+  right:0;
+  top:0;
+  width:1100px;
+  height:1100px;
+  transform:translate(50%, -50%);
+  opacity:0.25;
+  animation: rotateRight 90s linear infinite;
+  z-index:0;
+  pointer-events:none;
+}
+
+@keyframes rotateLeft {
+  from { transform:translate(-50%, -50%) rotate(0deg); }
+  to   { transform:translate(-50%, -50%) rotate(360deg); }
+}
+
+@keyframes rotateRight {
+  from { transform:translate(50%, -50%) rotate(0deg); }
+  to   { transform:translate(50%, -50%) rotate(-360deg); }
+}
+
+/* ===== AUTH UI ===== */
+.auth-wrapper{
+  position:relative;
+  z-index:10;
+  height:100%;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+}
+
+.card{
+  background:rgba(255,255,255,0.78);
+  backdrop-filter:blur(14px);
+  padding:40px;
+  border-radius:20px;
+  width:360px;
+  text-align:center;
+  box-shadow:0 12px 40px rgba(0,0,0,0.2);
+}
+
+h2{
+  color:#2A1503;
+  margin-bottom:20px;
+}
+
+input, button{
+  width:100%;
+  padding:14px;
+  margin-bottom:14px;
+  border-radius:12px;
+  font-size:14px;
+  box-sizing:border-box;
+}
+
+input{
+  border:1px solid #ccc;
+}
+
+button{
+  border:none;
+  background:#66350F;
+  color:white;
+  cursor:pointer;
+}
+
+button:hover{
+  background:#4a260a;
+}
+
+.toggle{
+  font-size:13px;
+  cursor:pointer;
+  color:#66350F;
+  margin-bottom:10px;
+}
+
+.guest{
+  font-size:13px;
+  cursor:pointer;
+  color:#444;
+}
+
+.error{
+  color:red;
+  font-size:13px;
+  margin-bottom:10px;
+  min-height:16px;
+}
+</style>
+</head>
+
+<body>
+
+<!-- BACKGROUND -->
+<svg class="mandala-left" viewBox="0 0 600 600">
+  <g transform="translate(300 300)" fill="none" stroke="#2A1503" stroke-width="2">
+    <circle r="200"/><circle r="160"/><circle r="120"/>
+  </g>
+</svg>
+
+<svg class="mandala-right" viewBox="0 0 600 600">
+  <g transform="translate(300 300)" fill="none" stroke="#2A1503" stroke-width="2">
+    <circle r="150"/><circle r="110"/>
+  </g>
+</svg>
+
+<!-- AUTH CARD -->
+<div class="auth-wrapper">
+  <div class="card">
+    <h2 id="title">Login</h2>
+    <div class="error" id="error"></div>
+
+    <input id="email" placeholder="Email">
+    <input id="password" type="password" placeholder="Password">
+    <input id="confirmPassword" type="password" placeholder="Confirm Password" style="display:none">
+
+    <button onclick="submitAuth()">Login</button>
+
+    <div class="toggle" onclick="toggleMode()">New user? Sign up</div>
+    <div class="guest" onclick="guestLogin()">Continue as Guest</div>
+  </div>
+</div>
+
+<!-- FIREBASE AUTH -->
 <script type="module">
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
 import {
   getAuth,
   createUserWithEmailAndPassword,
-  signInWithEmailAndPassword,
-  setPersistence,
-  browserLocalPersistence,
-  browserSessionPersistence,
-  onAuthStateChanged
+  signInWithEmailAndPassword
 } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js";
 
 /* FIREBASE CONFIG */
@@ -18,76 +172,45 @@ const firebaseConfig = {
   storageBucket: "nivaran-62268.firebasestorage.app",
   messagingSenderId: "435713174677",
   appId: "1:435713174677:web:06f681ab823906f6ccff9c"
-};
+};;
 
 const app = initializeApp(firebaseConfig);
 const auth = getAuth(app);
 
 let mode = "login";
 
-// --- UPDATED LOGIC ---
-onAuthStateChanged(auth, (user) => {
-  // Check if the user is on this page because they just clicked "Sign Out"
-  const isLoggingOut = sessionStorage.getItem("logging_out");
-
-  if (user && !isLoggingOut) {
-    // If they are logged in and NOT logging out, go to dashboard
-    window.location.replace("progress.html");
-  } else {
-    // If they logged out, clear the flag so they can log in again later
-    sessionStorage.removeItem("logging_out");
-    // Show the card (if you added the flicker-fix)
-    document.querySelector('.card').style.display = "block";
-  }
-});
-
 window.toggleMode = function(){
   mode = mode === "login" ? "signup" : "login";
-  document.getElementById("title").innerText = mode === "login" ? "Login" : "Sign Up";
-  document.getElementById("confirmPassword").style.display = mode === "signup" ? "block" : "none";
-  document.getElementById("authBtn").innerText = mode === "login" ? "Login" : "Sign Up";
-  document.getElementById("toggleText").innerText = mode === "login" ? "New user? Sign up" : "Have an account? Login";
-  document.getElementById("rememberBox").style.display = mode === "login" ? "flex" : "none";
-  document.getElementById("error").innerText = "";
+  title.innerText = mode === "login" ? "Login" : "Sign Up";
+  confirmPassword.style.display = mode === "signup" ? "block" : "none";
+  document.querySelector("button").innerText =
+    mode === "login" ? "Login" : "Sign Up";
+  error.innerText = "";
 };
 
 window.submitAuth = async function(){
-  const email = document.getElementById("email").value;
-  const password = document.getElementById("password").value;
-  const rememberMe = document.getElementById("rememberMe").checked;
-  const errorDiv = document.getElementById("error");
-  const authBtn = document.getElementById("authBtn");
-
-  if(!email || !password) {
-      errorDiv.innerText = "Please fill in all fields";
-      return;
-  }
-
-  authBtn.disabled = true;
-
   try{
-    const persistence = rememberMe ? browserLocalPersistence : browserSessionPersistence;
-    await setPersistence(auth, persistence);
-
     if(mode === "signup"){
-      const confirmPassword = document.getElementById("confirmPassword").value;
-      if(password !== confirmPassword){
-        errorDiv.innerText = "Passwords do not match";
-        authBtn.disabled = false;
+      if(password.value !== confirmPassword.value){
+        error.innerText = "Passwords do not match";
         return;
       }
-      await createUserWithEmailAndPassword(auth, email, password);
+      await createUserWithEmailAndPassword(auth, email.value, password.value);
     } else {
-      await signInWithEmailAndPassword(auth, email, password);
+      await signInWithEmailAndPassword(auth, email.value, password.value);
     }
-  } catch(e) {
-    errorDiv.innerText = e.message;
-    authBtn.disabled = false;
+    window.location.replace("progress.html");
+  }catch(e){
+    error.innerText = e.message;
   }
 };
 
+/* ===== GUEST LOGIN ===== */
 window.guestLogin = function(){
   sessionStorage.setItem("guest", "true");
   window.location.replace("progress.html");
 };
 </script>
+
+</body>
+</html>

@@ -90,6 +90,22 @@ input{
   border:1px solid #ccc;
 }
 
+/* REMEMBER ME STYLING */
+.remember-container {
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  margin-bottom: 14px;
+  font-size: 13px;
+  color: #2A1503;
+}
+
+.remember-container input {
+  width: auto;
+  margin: 0 8px 0 0;
+  cursor: pointer;
+}
+
 button{
   border:none;
   background:#66350F;
@@ -125,7 +141,6 @@ button:hover{
 
 <body>
 
-<!-- BACKGROUND -->
 <svg class="mandala-left" viewBox="0 0 600 600">
   <g transform="translate(300 300)" fill="none" stroke="#2A1503" stroke-width="2">
     <circle r="200"/><circle r="160"/><circle r="120"/>
@@ -138,7 +153,6 @@ button:hover{
   </g>
 </svg>
 
-<!-- AUTH CARD -->
 <div class="auth-wrapper">
   <div class="card">
     <h2 id="title">Login</h2>
@@ -148,20 +162,28 @@ button:hover{
     <input id="password" type="password" placeholder="Password">
     <input id="confirmPassword" type="password" placeholder="Confirm Password" style="display:none">
 
-    <button onclick="submitAuth()">Login</button>
+    <div class="remember-container" id="rememberBox">
+        <input type="checkbox" id="rememberMe">
+        <label for="rememberMe">Remember Me</label>
+    </div>
 
-    <div class="toggle" onclick="toggleMode()">New user? Sign up</div>
+    <button id="authBtn" onclick="submitAuth()">Login</button>
+
+    <div class="toggle" id="toggleText" onclick="toggleMode()">New user? Sign up</div>
     <div class="guest" onclick="guestLogin()">Continue as Guest</div>
   </div>
 </div>
 
-<!-- FIREBASE AUTH -->
 <script type="module">
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
 import {
   getAuth,
   createUserWithEmailAndPassword,
-  signInWithEmailAndPassword
+  signInWithEmailAndPassword,
+  setPersistence,
+  browserLocalPersistence,
+  browserSessionPersistence,
+  onAuthStateChanged
 } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js";
 
 /* FIREBASE CONFIG */
@@ -172,40 +194,68 @@ const firebaseConfig = {
   storageBucket: "nivaran-62268.firebasestorage.app",
   messagingSenderId: "435713174677",
   appId: "1:435713174677:web:06f681ab823906f6ccff9c"
-};;
+};
 
 const app = initializeApp(firebaseConfig);
 const auth = getAuth(app);
 
 let mode = "login";
 
+// CHECK IF USER IS ALREADY LOGGED IN (This makes "Remember Me" work)
+onAuthStateChanged(auth, (user) => {
+  if (user) {
+    window.location.replace("progress.html");
+  }
+});
+
 window.toggleMode = function(){
   mode = mode === "login" ? "signup" : "login";
-  title.innerText = mode === "login" ? "Login" : "Sign Up";
-  confirmPassword.style.display = mode === "signup" ? "block" : "none";
-  document.querySelector("button").innerText =
-    mode === "login" ? "Login" : "Sign Up";
-  error.innerText = "";
+  document.getElementById("title").innerText = mode === "login" ? "Login" : "Sign Up";
+  document.getElementById("confirmPassword").style.display = mode === "signup" ? "block" : "none";
+  document.getElementById("authBtn").innerText = mode === "login" ? "Login" : "Sign Up";
+  document.getElementById("toggleText").innerText = mode === "login" ? "New user? Sign up" : "Have an account? Login";
+  document.getElementById("rememberBox").style.display = mode === "login" ? "flex" : "none";
+  document.getElementById("error").innerText = "";
 };
 
 window.submitAuth = async function(){
+  const email = document.getElementById("email").value;
+  const password = document.getElementById("password").value;
+  const rememberMe = document.getElementById("rememberMe").checked;
+  const errorDiv = document.getElementById("error");
+  const authBtn = document.getElementById("authBtn");
+
+  if(!email || !password) {
+      errorDiv.innerText = "Please fill in all fields";
+      return;
+  }
+
+  authBtn.disabled = true; // Prevent double clicks / too many requests
+
   try{
+    // Set how Firebase remembers the session
+    const persistence = rememberMe ? browserLocalPersistence : browserSessionPersistence;
+    await setPersistence(auth, persistence);
+
     if(mode === "signup"){
-      if(password.value !== confirmPassword.value){
-        error.innerText = "Passwords do not match";
+      const confirmPassword = document.getElementById("confirmPassword").value;
+      if(password !== confirmPassword){
+        errorDiv.innerText = "Passwords do not match";
+        authBtn.disabled = false;
         return;
       }
-      await createUserWithEmailAndPassword(auth, email.value, password.value);
+      await createUserWithEmailAndPassword(auth, email, password);
     } else {
-      await signInWithEmailAndPassword(auth, email.value, password.value);
+      await signInWithEmailAndPassword(auth, email, password);
     }
-    window.location.replace("progress.html");
-  }catch(e){
-    error.innerText = e.message;
+    
+    // Redirect is handled by onAuthStateChanged above
+  } catch(e) {
+    errorDiv.innerText = e.message;
+    authBtn.disabled = false;
   }
 };
 
-/* ===== GUEST LOGIN ===== */
 window.guestLogin = function(){
   sessionStorage.setItem("guest", "true");
   window.location.replace("progress.html");

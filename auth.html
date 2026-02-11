@@ -62,7 +62,6 @@ html, body {
   justify-content:center;
 }
 
-/* We hide the card initially to prevent the "flicker" before the auto-login check */
 .card{
   background:rgba(255,255,255,0.78);
   backdrop-filter:blur(14px);
@@ -71,7 +70,6 @@ html, body {
   width:360px;
   text-align:center;
   box-shadow:0 12px 40px rgba(0,0,0,0.2);
-  display: none; 
 }
 
 h2{
@@ -92,6 +90,7 @@ input{
   border:1px solid #ccc;
 }
 
+/* REMEMBER ME STYLING */
 .remember-container {
   display: flex;
   align-items: center;
@@ -116,11 +115,6 @@ button{
 
 button:hover{
   background:#4a260a;
-}
-
-button:disabled {
-  background: #ccc;
-  cursor: not-allowed;
 }
 
 .toggle{
@@ -160,7 +154,7 @@ button:disabled {
 </svg>
 
 <div class="auth-wrapper">
-  <div class="card" id="authCard">
+  <div class="card">
     <h2 id="title">Login</h2>
     <div class="error" id="error"></div>
 
@@ -192,6 +186,7 @@ import {
   onAuthStateChanged
 } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js";
 
+/* FIREBASE CONFIG */
 const firebaseConfig = {
   apiKey: "AIzaSyCKav6YcbmYnX0OkzdDabF3SonOKB_BW-s",
   authDomain: "nivaran-62268.firebaseapp.com",
@@ -204,23 +199,14 @@ const firebaseConfig = {
 const app = initializeApp(firebaseConfig);
 const auth = getAuth(app);
 
-const authCard = document.getElementById("authCard");
+let mode = "login";
 
-// --- THE FIX: AUTO-REDIRECT LOGIC ---
+// CHECK IF USER IS ALREADY LOGGED IN (This makes "Remember Me" work)
 onAuthStateChanged(auth, (user) => {
-  const isLoggingOut = sessionStorage.getItem("logging_out");
-
-  if (user && !isLoggingOut) {
-    // If user is remembered and NOT clicking logout, skip to app
+  if (user) {
     window.location.replace("progress.html");
-  } else {
-    // If no user OR user just clicked logout, show the login card
-    authCard.style.display = "block";
-    sessionStorage.removeItem("logging_out"); // Reset the flag
   }
 });
-
-let mode = "login";
 
 window.toggleMode = function(){
   mode = mode === "login" ? "signup" : "login";
@@ -229,6 +215,7 @@ window.toggleMode = function(){
   document.getElementById("authBtn").innerText = mode === "login" ? "Login" : "Sign Up";
   document.getElementById("toggleText").innerText = mode === "login" ? "New user? Sign up" : "Have an account? Login";
   document.getElementById("rememberBox").style.display = mode === "login" ? "flex" : "none";
+  document.getElementById("error").innerText = "";
 };
 
 window.submitAuth = async function(){
@@ -243,23 +230,26 @@ window.submitAuth = async function(){
       return;
   }
 
-  authBtn.disabled = true;
-  errorDiv.innerText = "";
+  authBtn.disabled = true; // Prevent double clicks / too many requests
 
   try{
+    // Set how Firebase remembers the session
     const persistence = rememberMe ? browserLocalPersistence : browserSessionPersistence;
     await setPersistence(auth, persistence);
 
     if(mode === "signup"){
-      const confirmPass = document.getElementById("confirmPassword").value;
-      if(password !== confirmPass){
-        throw new Error("Passwords do not match");
+      const confirmPassword = document.getElementById("confirmPassword").value;
+      if(password !== confirmPassword){
+        errorDiv.innerText = "Passwords do not match";
+        authBtn.disabled = false;
+        return;
       }
       await createUserWithEmailAndPassword(auth, email, password);
     } else {
       await signInWithEmailAndPassword(auth, email, password);
     }
-    // Redirect happens via onAuthStateChanged
+    
+    // Redirect is handled by onAuthStateChanged above
   } catch(e) {
     errorDiv.innerText = e.message;
     authBtn.disabled = false;

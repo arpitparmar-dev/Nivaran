@@ -15,6 +15,12 @@
     --accent:#E8D8C4;
     --shield:#1cb0f6;
     --danger: #962d2d;
+    
+    /* Trophy Tier Colors */
+    --bronze: #cd7f32;
+    --silver: #C0C0C0;
+    --gold: #FFD700;
+    --platinum: #1cb0f6;
 }
 
 *{box-sizing:border-box; font-family:"Segoe UI",sans-serif; transition: 0.3s;}
@@ -106,6 +112,14 @@ body{ margin:0; background:var(--bg); color:var(--primary); overflow-x:hidden; }
     justify-content: center;
     gap: 8px; 
     margin: 0 auto 15px;
+}
+
+/* 🏆 TROPHY ANIMATION STYLES */
+#trophyPath {
+    stroke-dasharray: 260; 
+    stroke-dashoffset: 260; 
+    transition: stroke-dashoffset 1.5s ease-in-out, stroke 0.5s ease;
+    stroke-linecap: round;
 }
 
 /* TASKS & MODALS */
@@ -262,6 +276,45 @@ onAuthStateChanged(auth, async (user) => {
         }
     }
 });
+
+/* 🛠️ TROPHY UI UPDATE LOGIC */
+function updateTrophyUI() {
+    const streakText = document.getElementById('widgetStreak').innerText;
+    const streak = parseInt(streakText) || 0;
+    const trophyPath = document.getElementById('trophyPath');
+    const label = document.getElementById('milestoneLabel');
+    const maxOffset = 260; 
+
+    let goal = 7;
+    let prevGoal = 0;
+    let color = "var(--bronze)";
+    let rank = "Bronze";
+
+    if (streak >= 7 && streak < 21) {
+        prevGoal = 7; goal = 21; color = "var(--silver)"; rank = "Silver";
+    } else if (streak >= 21 && streak < 60) {
+        prevGoal = 21; goal = 60; color = "var(--gold)"; rank = "Gold";
+    } else if (streak >= 60) {
+        prevGoal = 60; goal = 75; color = "var(--platinum)"; rank = "Platinum";
+    }
+
+    let progress = (streak - prevGoal) / (goal - prevGoal);
+    if (progress < 0) progress = 0;
+    if (progress > 1) progress = 1;
+
+    // Bronze starts with a tiny bit drawn so user sees color immediately
+    if (streak === 0) progress = 0.05;
+
+    const newOffset = maxOffset - (maxOffset * progress);
+    trophyPath.style.strokeDashoffset = newOffset;
+    trophyPath.style.stroke = color;
+    label.innerText = `Goal: Day ${goal} (${rank})`;
+    label.style.color = color;
+}
+
+// Observe the streak number for changes to trigger the animation automatically
+const observer = new MutationObserver(updateTrophyUI);
+observer.observe(document.getElementById('widgetStreak'), { childList: true, characterData: true, subtree: true });
 
 /* 🛠️ TASK VALIDATION */
 window.handleCompleteDay = () => {
